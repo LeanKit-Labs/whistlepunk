@@ -1,0 +1,53 @@
+{
+  "name": "whistlepunk",
+  "version": "0.0.1",
+  "homepage": "https://github.com/LeanKit-Labs/whistlepunk",
+  "description": "Logging abstraction that signals any enabled adapters of a new log message.",
+  "author": "LeanKit",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/LeanKit-Labs/whistlepunk.git"
+  },
+  "contributors": [
+    {
+      "name": "Jim Cowart",
+      "email": "jim@ifandelse.com",
+      "url": "http://ifandelse.com"
+    }
+  ],
+  "keywords": [
+    "logging",
+    "log",
+    "bunyan",
+    "debug"
+  ],
+  "scripts": {
+    "test": "./node_modules/mocha/bin/mocha -r spec/helpers/node-setup.js spec",
+    "coverage": "./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha -x 'spec/**/*'  -- -r spec/helpers/node-setup.js spec spec/*.spec.js",
+    "show-coverage": "open ./coverage/lcov-report/index.html"
+  },
+  "dependencies": {
+    "colors": "^1.0.3",
+    "debug": "^2.1.1",
+    "lodash": "^2.4.1",
+    "moment": "^2.8.4"
+  },
+  "devDependencies": {
+    "istanbul": "^0.3.2",
+    "mocha": "^1.21.4",
+    "should": "^4.0.4"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://opensource.org/licenses/MIT"
+    }
+  ],
+  "files": [
+    "src",
+    "LICENSE"
+  ]
+}
