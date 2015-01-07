@@ -26,6 +26,15 @@ var logger = require("whistlepunk")(postal, config);
 logger.warn("Watch it, I'm warning you!");
 ```
 
+###Log Levels
+The log levels available are specified as integers (as in the above `level` value under each adapter's configuration). Specifying a log level includes each level up to the level specified. For example, specifying a log level of "3" (info), will include warn (2) and error (1) log messages as well.
+
+* 0 - off
+* 1 - error
+* 2 - warn
+* 3 - info
+* 4 - debug
+
 ###Using With autohost
 It's possible to use autohost to emit log messages over websockets to a client. To do so, you need to ensure autohost is registered with its fount instances as "ah", and pass the autohost fount instance to whistlepunk:
 
