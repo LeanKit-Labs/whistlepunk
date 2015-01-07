@@ -21,7 +21,7 @@ module.exports = function( logChannel, config ) {
 		} else {
 			msg = data.msg;
 		}
-		console.log( colors[ data.type ]( moment( data.timestamp ).format(), msg ) );
+		console.log( colors[ data.type ]( moment( data.timestamp ).format(), data.namespace || "", msg ) );
 	} ).constraint( function( data ) {
 		return data.level <= config.level && ( !config.bailIfDebug || ( config.bailIfDebug && !envDebug ) );
 	} );
