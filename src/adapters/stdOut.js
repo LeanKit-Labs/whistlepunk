@@ -16,7 +16,7 @@ module.exports = function( logChannel, config ) {
 
 	logChannel.subscribe( "#", function( data ) {
 		var msg = data.msg.toString() === "[object Object]" ? JSON.stringify( data.msg, null, 2 ) : data.msg;
-		console.log( colors[ data.type ]( moment( data.timestamp ).format(), data.msg ) );
+		console.log( colors[ data.type ]( moment( data.timestamp ).format(), msg ) );
 	} ).constraint( function( data ) {
 		return data.level <= config.level && ( !config.bailIfDebug || ( config.bailIfDebug && !envDebug ) );
 	} );
