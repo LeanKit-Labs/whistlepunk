@@ -58,3 +58,38 @@ var logger = require("whistlepunk")(postal, config, host.fount);
 
 logger.debug("More info than you'd typically want to sift through....");
 ```
+
+###Custom Adapters
+Whistlepunk adapters modules must meet the following criteria:
+
+ * export a factory method that takes the adapter config
+ * provide an onLog method it can call on entries
+ * implement a singleton (requiring it multiple times should result in the same instance)
+
+Optionally, your adapter module can:
+
+ * return a promise
+ * provide a `constraint` predicate that filters log entries (one is provided by default that filters by level)
+ * accept a fount instance as a second argument to the factory method
+
+Debug adapter
+```js
+var debug = require( "debug" );
+var namespaces = {};
+var debugAdapter = {
+	onLog: function( data ) {
+		var debugNs = namespaces[ data.namespace ];
+		if ( !debugNs ) {
+			debugNs = namespaces[ data.namespace ] = debug( data.namespace );
+		}
+		debugNs( data.type, data.msg );
+	}
+};
+
+// factory method returns the same instance every time
+// this allows whistlepunk to prevent creating duplicate subscriptions
+// which would cause duplicate log entries
+module.exports = function( config ) {
+	return debugAdapter;
+};
+```

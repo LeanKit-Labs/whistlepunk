@@ -1,8 +1,9 @@
 var colors = require( "colors" );
 var moment = require( "moment" );
 var _ = require( "lodash" );
-module.exports = function( logChannel, config ) {
+var adapter;
 
+function configure( config ) {
 	var envDebug = !!process.env.DEBUG;
 
 	var theme = _.extend( {
@@ -14,15 +15,23 @@ module.exports = function( logChannel, config ) {
 
 	colors.setTheme( theme );
 
-	logChannel.subscribe( "#", function( data ) {
-		var msg;
-		if ( data.msg.toString() === "[object Object]" ) {
-			msg = config.formatJSON ? JSON.stringify( data.msg, null, 2 ) : JSON.stringify( data.msg )
-		} else {
-			msg = data.msg;
+	adapter = adapter || {
+		onLog: function( data ) {
+			var msg;
+			if ( data.msg.toString() === "[object Object]" ) {
+				msg = config.formatJSON ? JSON.stringify( data.msg, null, 2 ) : JSON.stringify( data.msg );
+			} else {
+				msg = data.msg;
+			}
+			console.log( colors[ data.type ]( moment( data.timestamp ).format(), data.namespace || "", msg ) );
+		},
+		constraint: function( data ) {
+			return data.level <= config.level && ( !config.bailIfDebug || ( config.bailIfDebug && !envDebug ) );
 		}
-		console.log( colors[ data.type ]( moment( data.timestamp ).format(), data.namespace || "", msg ) );
-	} ).constraint( function( data ) {
-		return data.level <= config.level && ( !config.bailIfDebug || ( config.bailIfDebug && !envDebug ) );
-	} );
+	};
+}
+
+module.exports = function( config ) {
+	configure( config );
+	return adapter;
 };
