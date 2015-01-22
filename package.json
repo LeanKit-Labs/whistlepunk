@@ -30,11 +30,13 @@
     "colors": "^1.0.3",
     "debug": "^2.1.1",
     "lodash": "^2.4.1",
-    "moment": "^2.8.4"
+    "moment": "^2.8.4",
+    "when": "^3.6.4"
   },
   "devDependencies": {
     "istanbul": "^0.3.2",
     "mocha": "^1.21.4",
+    "postal": "^0.12.3",
     "should": "^4.0.4"
   },
   "engines": {
