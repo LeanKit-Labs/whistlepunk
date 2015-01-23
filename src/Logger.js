@@ -16,7 +16,7 @@ module.exports = function( channel ) {
 			namespace: this.namespace
 		};
 		channel.publish( type, payload );
-	}
+	};
 
 	logLevels.slice( 1 ).forEach( function( level ) {
 		Logger.prototype[ level ] = function() {

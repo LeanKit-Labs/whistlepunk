@@ -1,6 +1,6 @@
 {
   "name": "whistlepunk",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "homepage": "https://github.com/LeanKit-Labs/whistlepunk",
   "description": "Logging abstraction that signals any enabled adapters of a new log message.",
   "author": "LeanKit",
@@ -13,6 +13,11 @@
       "name": "Jim Cowart",
       "email": "jim@ifandelse.com",
       "url": "http://ifandelse.com"
+    },
+    {
+      "name": "Alex Robson",
+      "email": "WhyNotJustComment@OnMyBlog.com",
+      "url": "http://nerdventure.io/"
     }
   ],
   "keywords": [
@@ -27,17 +32,17 @@
     "show-coverage": "open ./coverage/lcov-report/index.html"
   },
   "dependencies": {
-    "colors": "^1.0.3",
-    "debug": "^2.1.1",
-    "lodash": "^2.4.1",
-    "moment": "^2.8.4",
-    "when": "^3.6.4"
+    "colors": "1.0.3",
+    "debug": "2.1.1",
+    "lodash": "2.4.1",
+    "moment": "2.9.0",
+    "when": "3.6.4"
   },
   "devDependencies": {
-    "istanbul": "^0.3.2",
-    "mocha": "^1.21.4",
-    "postal": "^0.12.3",
-    "should": "^4.0.4"
+    "istanbul": "~0.3.2",
+    "mocha": "~2.1.0",
+    "postal": "~0.12.3",
+    "should": "~4.6.1"
   },
   "engines": {
     "node": ">=0.10.0"
