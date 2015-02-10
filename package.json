@@ -1,6 +1,6 @@
 {
   "name": "whistlepunk",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "homepage": "https://github.com/LeanKit-Labs/whistlepunk",
   "description": "Logging abstraction that signals any enabled adapters of a new log message.",
   "author": "LeanKit",
@@ -18,6 +18,10 @@
       "name": "Alex Robson",
       "email": "WhyNotJustComment@OnMyBlog.com",
       "url": "http://nerdventure.io/"
+    },
+    {
+      "name": "Brian Edgerton",
+      "url": "https://github.com/brianedgerton"
     }
   ],
   "keywords": [

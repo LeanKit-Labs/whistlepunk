@@ -68,11 +68,11 @@ Whistlepunk adapters modules must meet the following criteria:
 
 Optionally, your adapter module can:
 
- * return a promise
+ * provide an init method that returns a promise for asynchronous setup
  * provide a `constraint` predicate that filters log entries (one is provided by default that filters by level)
  * accept a fount instance as a second argument to the factory method
 
-Debug adapter
+#### Debug adapter - synchronous example
 ```js
 var debug = require( "debug" );
 var namespaces = {};
@@ -91,5 +91,40 @@ var debugAdapter = {
 // which would cause duplicate log entries
 module.exports = function( config ) {
 	return debugAdapter;
+};
+```
+
+#### Autohost Socket adapter - asynchronous example
+```js
+var noOpAdapter = { onLog: function() {} };
+var adapter;
+
+function createAhAdapter( fount ) {
+	var host;
+
+	return {
+		// whistlepunk will call this when present
+		// and cache log messages for this adapter
+		// until the promise resolves
+		init: function() {
+			return fount.resolve( "ah" )
+				.then( function( _host ) {
+					host = _host;
+				} );
+		},
+		onLog: function( data ) {
+			if ( host && host.notifyClients ) {
+				host.notifyClients( data.type, data );
+			}
+		}
+	};
+}
+
+// because need fount to get a handle to the
+// autohost instance, return a no-op adapter
+// if it's missing
+module.exports = function( config, fount ) {
+	adapter = adapter || ( fount ? createAhAdapter( fount ) : noOpAdapter );
+	return adapter;
 };
 ```
