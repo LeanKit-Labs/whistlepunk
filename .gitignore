@@ -21,3 +21,4 @@ public/js
 server/log
 client/coverage
 _spec-tmp
+/coverage

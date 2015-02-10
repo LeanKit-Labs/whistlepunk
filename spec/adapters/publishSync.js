@@ -1,6 +1,7 @@
 var colors = require( "colors" );
 var moment = require( "moment" );
 var _ = require( "lodash" );
+var postal = require( "postal" );
 var adapter;
 
 function configure( config ) {
@@ -18,12 +19,12 @@ function configure( config ) {
 	adapter = adapter || {
 		onLog: function( data ) {
 			var msg;
-			if ( data.msg.toString() === "[object Object]" ) {
-				msg = config.formatJSON ? JSON.stringify( data.msg, null, 2 ) : JSON.stringify( data.msg );
-			} else {
-				msg = data.msg;
-			}
-			console.log( colors[ data.type ]( moment( data.timestamp ).format(), data.namespace || "", msg ) );
+
+			postal.publish( {
+				channel: "wp-test",
+				topic: "publishSync",
+				data: data.msg
+			} );
 		},
 		constraint: function( data ) {
 			return data.level <= config.level && ( !config.bailIfDebug || ( config.bailIfDebug && !envDebug ) );
