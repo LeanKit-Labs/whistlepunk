@@ -2,7 +2,6 @@ var _ = require( "lodash" );
 var fs = require( "fs" );
 var path = require( "path" );
 var when = require( "when" );
-var adapterFsm = require( "./adapter.fsm" );
 
 var builtIn = getAdapters();
 
@@ -21,7 +20,7 @@ function getAdapters() {
 	}, {} );
 }
 
-function wireUp( config, channel, adapter ) {
+function wireUp( adapterFsm, config, channel, adapter ) {
 
 	var fsm;
 	var init;
@@ -44,17 +43,22 @@ function wireUp( config, channel, adapter ) {
 	if ( adapter.subscription ) {
 		adapter.subscription.unsubscribe();
 	}
+
 	adapter.subscription = newSub;
 
 }
 
 module.exports = function( channel, config, fount ) {
 
-	_.each( config.adapters, function( adapterCfg, name ) {
+	var adapterFsm = require( "./adapter.fsm" );
+
+	return _.map( config.adapters, function( adapterCfg, name ) {
 		var adapterPath = builtIn[ name ] || require.resolve( name );
 		var adapter = require( adapterPath )( adapterCfg, fount );
 
-		wireUp( config, channel, adapter );
+		wireUp( adapterFsm, adapterCfg, channel, adapter );
+
+		return adapter;
 
 	} );
 };

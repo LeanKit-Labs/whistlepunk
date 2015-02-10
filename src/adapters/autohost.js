@@ -2,17 +2,21 @@ var noOpAdapter = { onLog: function() {} };
 var adapter;
 
 function createAhAdapter( fount ) {
-	return fount
-		.resolve( "ah" )
-		.then( function( host ) {
-			return {
-				onLog: function( data ) {
-					if ( host && host.notifyClients ) {
-						host.notifyClients( data.type, data );
-					}
-				}
-			};
-		} );
+	var host;
+
+	return {
+		init: function() {
+			return fount.resolve( "ah" )
+				.then( function( _host ) {
+					host = _host;
+				} );
+		},
+		onLog: function( data ) {
+			if ( host && host.notifyClients ) {
+				host.notifyClients( data.type, data );
+			}
+		}
+	};
 }
 
 module.exports = function( config, fount ) {

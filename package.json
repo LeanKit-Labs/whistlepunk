@@ -35,15 +35,22 @@
     "colors": "1.0.3",
     "debug": "2.1.1",
     "lodash": "2.4.1",
+    "machina": "1.0.0-1",
     "moment": "2.9.0",
-    "when": "3.6.4",
-    "machina": "1.0.0-1"
+    "when": "3.6.4"
   },
   "devDependencies": {
+    "gulp": "^3.8.11",
+    "gulp-istanbul": "^0.6.0",
+    "gulp-jshint": "^1.9.2",
+    "gulp-mocha": "^2.0.0",
     "istanbul": "~0.3.2",
+    "jshint-stylish": "^1.0.0",
     "mocha": "~2.1.0",
+    "open": "0.0.5",
     "postal": "~0.12.3",
-    "should": "~4.6.1"
+    "should": "~4.6.1",
+    "sinon": "^1.12.2"
   },
   "engines": {
     "node": ">=0.10.0"

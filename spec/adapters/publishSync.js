@@ -22,7 +22,7 @@ function configure( config ) {
 
 			postal.publish( {
 				channel: "wp-test",
-				topic: "stdOutSync",
+				topic: "publishSync",
 				data: data.msg
 			} );
 		},

@@ -3,26 +3,24 @@ var postal = require( "postal" );
 var path = require( "path" );
 var wp = require( "../../src/index.js" );
 var adapterPath = path.resolve( __dirname + "/../adapters" );
-var stdOutAsync = adapterPath + "/stdOutAsync.js";
-var stdOutSync = adapterPath + "/stdOutSync.js";
+var publishAsync = adapterPath + "/publishAsync.js";
+var publishSync = adapterPath + "/publishSync.js";
 var config = {
 	"adapters": {}
 };
 
-config.adapters[ stdOutSync ] = {
-	"level": 5,
-	"bailIfDebug": true
+config.adapters[ publishSync ] = {
+	"level": 5
 };
 
-config.adapters[ stdOutAsync ] = {
-	"level": 5,
-	"bailIfDebug": true
+config.adapters[ publishAsync ] = {
+	"level": 5
 };
 
 describe( "Whistlepunk Synchronous Initialization", function() {
 
 	describe( "when initializing whistlepunk", function() {
-		var Logger;
+		var logFactory;
 		var log;
 		var syncLogReceived;
 		var asyncLogReceived;
@@ -31,7 +29,7 @@ describe( "Whistlepunk Synchronous Initialization", function() {
 		before( function() {
 			postal.subscribe( {
 				channel: "wp-test",
-				topic: "stdOutSync",
+				topic: "publishSync",
 				callback: function( data ) {
 					syncLogReceived = data;
 				}
@@ -39,14 +37,14 @@ describe( "Whistlepunk Synchronous Initialization", function() {
 
 			postal.subscribe( {
 				channel: "wp-test",
-				topic: "stdOutAsync",
+				topic: "publishAsync",
 				callback: function( data ) {
 					asyncLogReceived = data;
 				}
 			} );
 
-			Logger = wp( postal, config );
-			log = Logger( "wp-tests" );
+			logFactory = wp( postal, config );
+			log = logFactory( "wp-tests" );
 			log.info( msg );
 		} );
 
@@ -55,14 +53,14 @@ describe( "Whistlepunk Synchronous Initialization", function() {
 		} );
 
 		it( "should queue logs for async adapters", function( done ) {
-			this.timeout( 3000 );
+			this.timeout( 1000 );
 
 			should( asyncLogReceived ).not.be.ok;
 
 			setTimeout( function() {
 				asyncLogReceived.should.equal( msg );
 				done();
-			}, 2000 );
+			}, 500 );
 		} );
 
 	} );
