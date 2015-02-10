@@ -2,6 +2,8 @@ var _ = require( "lodash" );
 var fs = require( "fs" );
 var path = require( "path" );
 var when = require( "when" );
+var adapterFsm = require( "./adapter.fsm" );
+
 var builtIn = getAdapters();
 
 function defaultConstraint( config ) {
@@ -19,23 +21,40 @@ function getAdapters() {
 	}, {} );
 }
 
-function wireUp( config, channel ) {
-	return function onAdapter( adapter ) {
-		var newSub = channel
-			.subscribe( adapter.topic || "#", adapter.onLog )
-			.constraint( adapter.constraint || defaultConstraint( config ) );
-		if ( adapter.subscription ) {
-			adapter.subscription.unsubscribe();
+function wireUp( config, channel, adapter ) {
+
+	var fsm;
+	var init;
+	var handler = adapter.onLog;
+
+	if ( _.isFunction( adapter.init ) ) {
+
+		init = adapter.init();
+
+		if ( init && init.then ) {
+			adapterFsm.register( adapter, init );
+			handler = adapterFsm.onLog.bind( adapterFsm, adapter );
 		}
-		adapter.subscription = newSub;
-	};
+
+	}
+
+	var newSub = channel
+		.subscribe( adapter.topic || "#", handler )
+		.constraint( adapter.constraint || defaultConstraint( config ) );
+	if ( adapter.subscription ) {
+		adapter.subscription.unsubscribe();
+	}
+	adapter.subscription = newSub;
+
 }
 
 module.exports = function( channel, config, fount ) {
+
 	_.each( config.adapters, function( adapterCfg, name ) {
 		var adapterPath = builtIn[ name ] || require.resolve( name );
 		var adapter = require( adapterPath )( adapterCfg, fount );
-		when( adapter )
-			.then( wireUp( adapterCfg, channel ) );
+
+		wireUp( config, channel, adapter );
+
 	} );
 };
