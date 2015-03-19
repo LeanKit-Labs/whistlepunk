@@ -89,12 +89,14 @@
 		"it",
 		"describe",
 		"before",
+		"beforeEach",
 		"after",
 		"postal",
 		"should",
 		"when",
 		"_",
-		"sinon"
+		"sinon",
+		"getWhistlepunk"
 	],
 
 	// LEGACY

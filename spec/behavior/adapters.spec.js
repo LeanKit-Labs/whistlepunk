@@ -1,14 +1,3 @@
-var index = "../../src/index.js";
-var configParser = "../../src/configParser.js";
-var stdOut = "../../src/adapters/stdOut.js";
-
-function getWp() {
-	delete require.cache[ require.resolve( index ) ];
-	delete require.cache[ require.resolve( configParser ) ];
-	delete require.cache[ require.resolve( stdOut ) ];
-	return require( index );
-}
-
 describe( "Built-in Adapters", function() {
 
 	describe( "when using the stdOut adapter", function() {
@@ -19,7 +8,7 @@ describe( "Built-in Adapters", function() {
 			before( function() {
 				msg = "Testing stdOut";
 				noMsg = "Shouldn't show up";
-				wp = getWp();
+				wp = getWhistlepunk();
 				consoleLog = sinon.spy( console, "log" );
 				logFactory = wp( postal, {
 					adapters: {
@@ -78,7 +67,7 @@ describe( "Built-in Adapters", function() {
 				noMsg = "Shouldn't show up";
 				DEBUG = process.env.DEBUG;
 				process.env.DEBUG = true;
-				cleanWp = getWp();
+				cleanWp = getWhistlepunk();
 
 				consoleLog = sinon.spy( console, "log" );
 				logFactory = cleanWp( postal, {
@@ -133,7 +122,7 @@ describe( "Built-in Adapters", function() {
 					return when( host );
 				}
 			};
-			wp = getWp();
+			wp = getWhistlepunk();
 			logFactory = wp( postal, {
 				adapters: {
 					autohost: {
@@ -177,7 +166,7 @@ describe( "Built-in Adapters", function() {
 			process.env.DEBUG = "debug-test";
 			debug = require( "debug" );
 			debug.log = sinon.stub( debug, "log" );
-			wp = getWp();
+			wp = getWhistlepunk();
 			logFactory = wp( postal, {
 				adapters: {
 					debug: {
