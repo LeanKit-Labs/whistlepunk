@@ -1,12 +1,15 @@
 {
   "name": "whistlepunk",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "homepage": "https://github.com/LeanKit-Labs/whistlepunk",
   "description": "Logging abstraction that signals any enabled adapters of a new log message.",
   "author": "LeanKit",
   "repository": {
     "type": "git",
     "url": "git://github.com/LeanKit-Labs/whistlepunk.git"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
   },
   "contributors": [
     {

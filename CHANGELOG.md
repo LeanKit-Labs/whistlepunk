@@ -1,6 +1,10 @@
 
 ## 0.2.x
 
+### 0.2.1
+ * Refactored Logger to accept an optional timestamp
+ * Timestamp is now a Date object instead of a integer
+
 ### 0.2.0
  * Bug fix - log entries made before promise-based adapters resolved got lost
  * Re-design of how promise-based adapters work to support bug fix
