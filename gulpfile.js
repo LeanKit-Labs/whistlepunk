@@ -30,12 +30,12 @@ gulp.task( "watch", [ "test" ], function() {
 
 gulp.task( "coverage", function( cb ) {
 	gulp.src( [ allSrcFiles ] )
-		.pipe( istanbul() ) // Covering files
-		.pipe( istanbul.hookRequire() ) // Force `require` to return covered files
+		.pipe( istanbul() )
+		.pipe( istanbul.hookRequire() )
 		.on( "finish", function() {
 			gulp.src( [ testSetup, allTestFiles ] )
 				.pipe( mocha() )
-				.pipe( istanbul.writeReports() ) // Creating the reports after tests runned
+				.pipe( istanbul.writeReports() )
 				.on( "end", function() {
 					process.exit();
 				} );
