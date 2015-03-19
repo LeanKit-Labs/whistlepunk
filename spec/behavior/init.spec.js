@@ -1,5 +1,3 @@
-var should = require( "should" );
-var postal = require( "postal" );
 var path = require( "path" );
 var wp = require( "../../src/index.js" );
 var adapterPath = path.resolve( __dirname + "/../adapters" );
@@ -20,13 +18,10 @@ config.adapters[ publishAsync ] = {
 describe( "Whistlepunk Synchronous Initialization", function() {
 
 	describe( "when initializing whistlepunk", function() {
-		var logFactory;
-		var log;
-		var syncLogReceived;
-		var asyncLogReceived;
-		var msg = "You been whistlepunk'd";
+		var logFactory, log, syncLogReceived, asyncLogReceived, msg;
 
 		before( function() {
+			msg = "You been whistlepunk'd";
 			postal.subscribe( {
 				channel: "wp-test",
 				topic: "publishSync",
@@ -48,6 +43,10 @@ describe( "Whistlepunk Synchronous Initialization", function() {
 			log.info( msg );
 		} );
 
+		after( function() {
+			postal.reset();
+		} );
+
 		it( "should be immediately available", function() {
 			syncLogReceived.should.equal( msg );
 		} );
@@ -55,14 +54,12 @@ describe( "Whistlepunk Synchronous Initialization", function() {
 		it( "should queue logs for async adapters", function( done ) {
 			this.timeout( 1000 );
 
-			should( asyncLogReceived ).not.be.ok;
+			( typeof asyncLogReceived ).should.equal( "undefined" );
 
 			setTimeout( function() {
 				asyncLogReceived.should.equal( msg );
 				done();
 			}, 500 );
 		} );
-
 	} );
-
 } );

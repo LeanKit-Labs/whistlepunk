@@ -89,7 +89,12 @@
 		"it",
 		"describe",
 		"before",
-		"after"
+		"after",
+		"postal",
+		"should",
+		"when",
+		"_",
+		"sinon"
 	],
 
 	// LEGACY

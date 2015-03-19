@@ -1,7 +1,3 @@
-var should = require( "should" );
-var sinon = require( "sinon" );
-var when = require( "when" );
-var postal = require( "postal" );
 var index = "../../src/index.js";
 var configParser = "../../src/configParser.js";
 var stdOut = "../../src/adapters/stdOut.js";
@@ -19,13 +15,10 @@ describe( "Built-in Adapters", function() {
 
 		describe( "when debug is not enabled", function() {
 
-			var logFactory;
-			var logger;
-			var consoleLog;
-			var msg = "Testing stdOut";
-			var noMsg = "Shouldn't show up";
-			var wp;
+			var logFactory, logger, consoleLog, msg, noMsg, wp;
 			before( function() {
+				msg = "Testing stdOut";
+				noMsg = "Shouldn't show up";
 				wp = getWp();
 				consoleLog = sinon.spy( console, "log" );
 				logFactory = wp( postal, {
@@ -42,6 +35,7 @@ describe( "Built-in Adapters", function() {
 
 			after( function() {
 				logger.reset();
+				postal.reset();
 				consoleLog.restore();
 			} );
 
@@ -76,17 +70,12 @@ describe( "Built-in Adapters", function() {
 
 				pass.should.be.ok;
 			} );
-
 		} );
 
 		describe( "when debug is enabled", function() {
-			var cleanWp;
-			var logFactory;
-			var logger;
-			var consoleLog;
-			var noMsg = "Shouldn't show up";
-			var DEBUG;
+			var cleanWp, logFactory, logger, consoleLog, noMsg, DEBUG;
 			before( function() {
+				noMsg = "Shouldn't show up";
 				DEBUG = process.env.DEBUG;
 				process.env.DEBUG = true;
 				cleanWp = getWp();
@@ -106,11 +95,10 @@ describe( "Built-in Adapters", function() {
 
 			after( function() {
 				logger.reset();
+				postal.reset();
 				process.env.DEBUG = DEBUG;
 				consoleLog.restore();
 			} );
-
-
 
 			it( "should not log any statements", function() {
 				var count = consoleLog.callCount;
@@ -128,18 +116,14 @@ describe( "Built-in Adapters", function() {
 				pass.should.be.ok;
 			} );
 		} );
-
 	} );
 
 	describe( "when using the autohost adapter", function() {
-		var logFactory;
-		var logger;
-		var errMsg = "Testing autohost err";
-		var infoMsg = "Testing autohost info";
-		var wp;
-		var fount;
-		var host;
+		var logFactory, logger, errMsg, infoMsg, wp, fount, host;
+
 		before( function() {
+			errMsg = "Testing autohost err";
+			infoMsg = "Testing autohost info";
 			host = {
 				notifyClients: sinon.stub()
 			};
@@ -164,6 +148,7 @@ describe( "Built-in Adapters", function() {
 
 		after( function() {
 			logger.reset();
+			postal.reset();
 		} );
 
 		it( "should forward messages to autohost's clients", function( done ) {
@@ -180,20 +165,14 @@ describe( "Built-in Adapters", function() {
 				done();
 			} );
 		} );
-
 	} );
 
 	describe( "when using the debug adapter", function() {
-		var logFactory;
-		var logger;
-		var errMsg = "Testing autohost err";
-		var infoMsg = "Testing autohost info";
-		var wp;
-		var req;
-		var messages = [];
-		var debug;
-		var DEBUG;
+		var logFactory, logger, errMsg, infoMsg, wp, req, messages, debug, DEBUG;
 		before( function() {
+			messages = [];
+			errMsg = "Testing autohost err";
+			infoMsg = "Testing autohost info";
 			DEBUG = process.env.DEBUG;
 			process.env.DEBUG = "debug-test";
 			debug = require( "debug" );
@@ -215,15 +194,13 @@ describe( "Built-in Adapters", function() {
 			process.env.DEBUG = DEBUG;
 			debug.log.restore();
 			logger.reset();
+			postal.reset();
 		} );
 
 		it( "should output messages to the debug log", function() {
 			debug.log.callCount.should.equal( 2 );
-
 			debug.log.getCall( 0 ).args[ 1 ].should.equal( errMsg );
 			debug.log.getCall( 1 ).args[ 1 ].should.equal( infoMsg );
 		} );
-
 	} );
-
 } );
