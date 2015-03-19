@@ -8,11 +8,11 @@ module.exports = function( channel ) {
 		this.adapters = adapters;
 	}
 
-	Logger.prototype.logIt = function logIt( type, data ) {
+	Logger.prototype.logIt = function logIt( type, data, timestamp ) {
 		var msg = ( typeof data[ 0 ] === "string" ) ? util.format.apply( null, data ) : data;
 		var payload = {
 			msg: msg,
-			timestamp: Date.now(),
+			timestamp: timestamp || new Date(),
 			type: type,
 			level: logLevels.indexOf( type ),
 			namespace: this.namespace
