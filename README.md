@@ -1,11 +1,11 @@
-#Whistlepunk
+# Whistlepunk
 
 > *noun* - a lumberjack who operates the signal wire running to a donkey engine whistle.
 
-##What Is It?
+## What Is It?
 Logging.....sigh. It's necessary, but often intrusive, heavy-handed and cumbersome...or it's anemic and fails to satisfy the needs of Ops and Developers. Whistlepunk doesn't care about what logging tools you love to use. It just cares that it needs to "blow the whistle" (i.e. - indicate something should be logged). You can plug your favorite logging tool into whistlepunk by writing an adapter for it (which consists of susbcribing to the postal "log" channel and writing the published log messages to your preferred logging library). At LeanKit, we're using [debug]() a lot (during development) and then standard out for production logs - so whistlepunk has two adapters (currently) built-in.
 
-##How Does it Work?
+## How Does it Work?
 If whistlepunk knows about your adapter, then including a section for that adapter in your configuration will enable it. For example, this config enables the "stdOut" and "debug" built-in adapters:
 
 ```javascript
@@ -13,7 +13,11 @@ var config =  {
 	adapters: {
 		stdOut: {
 			level: 5,
-			bailIfDebug: true // disables stdOut if DEBUG=* is in play
+			bailIfDebug: true, // disables stdOut if DEBUG=* is in play
+			timestamp: {
+				local: true, // defaults to UTC
+				format: 'MMM-D-YYYY hh:mm:ss A' // ex: Jan 1, 2015 10:15:20 AM
+			}
 		},
 		"debug": {
 			level: 5
@@ -26,7 +30,7 @@ var logger = require("whistlepunk")(postal, config);
 logger.warn("Watch it, I'm warning you!");
 ```
 
-###Log Levels
+### Log Levels
 The log levels available are specified as integers (as in the above `level` value under each adapter's configuration). Specifying a log level includes each level up to the level specified. For example, specifying a log level of "3" (info), will include warn (2) and error (1) log messages as well.
 
 * 0 - off
@@ -35,7 +39,33 @@ The log levels available are specified as integers (as in the above `level` valu
 * 3 - info
 * 4 - debug
 
-###Using With autohost
+### Timestamps
+Whistlepunk uses moment.js to capture and format timestamps. Timestamps will default to Greenwich Mean Time and the ISO8601 format.
+
+#### Whistlepunk Users
+Adapters should support the `timestamp` property in their configuration. To learn how to provide custom formats for the timestamp in your log entries, see [moment.js](http://momentjs.com/docs/#/displaying/format/).
+
+The timestamp property has the following properties:
+
+```javascript
+	{
+		local: false, // default setting
+		format: "YYYY-MM-DDTHH:mm:ss.SSSZ" // default setting
+	}
+```
+
+#### Adapter Authors
+Whistelpunk provides adapters with two fields that can be used to display a timestamp. The `timestamp` field is an ISO8601 string in GMT. The `utc` field is a moment instance in UTC that can be used to apply a user-supplied format.
+
+A timeFormatter function that will adjust and format the timestamp according to the adapter's configuration will be passed to your adapter's constructor. It requires the configuration and data as arguments:
+
+```javascript
+var timestamp = formatter( config, data );
+```
+
+See the [stdOut adapter](/blob/master/src/adapters/stdOut.js) for an example use case.
+
+### Using With autohost
 It's possible to use autohost to emit log messages over websockets to a client. To do so, you need to ensure autohost is registered with its fount instances as "ah", and pass the autohost fount instance to whistlepunk:
 
 ```javascript
@@ -59,7 +89,7 @@ var logger = require("whistlepunk")(postal, config, host.fount);
 logger.debug("More info than you'd typically want to sift through....");
 ```
 
-###Custom Adapters
+### Custom Adapters
 Whistlepunk adapters modules must meet the following criteria:
 
  * export a factory method that takes the adapter config
@@ -123,7 +153,7 @@ function createAhAdapter( fount ) {
 // because need fount to get a handle to the
 // autohost instance, return a no-op adapter
 // if it's missing
-module.exports = function( config, fount ) {
+module.exports = function( config, formatter, fount ) {
 	adapter = adapter || ( fount ? createAhAdapter( fount ) : noOpAdapter );
 	return adapter;
 };

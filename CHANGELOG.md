@@ -1,6 +1,11 @@
 
 ## 0.2.x
 
+### Current
+ * Provide consistent default timestamp using GMZ timezone in ISO
+ * Add raw moment timestamp to data published to adapters
+ * Add timestamp configuration to adapter configuration to allow users to customize format
+
 ### 0.2.1
  * Refactored Logger to accept an optional timestamp
  * Timestamp is now a Date object instead of a integer
