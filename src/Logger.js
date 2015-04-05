@@ -1,5 +1,6 @@
 var util = require( "util" );
 var _ = require( "lodash" );
+var moment = require( "moment" );
 module.exports = function( channel ) {
 	var logLevels = [ "off", "error", "warn", "info", "debug" ];
 
@@ -10,9 +11,11 @@ module.exports = function( channel ) {
 
 	Logger.prototype.logIt = function logIt( type, data, timestamp ) {
 		var msg = ( typeof data[ 0 ] === "string" ) ? util.format.apply( null, data ) : data;
+		var utc = moment.utc();
 		var payload = {
 			msg: msg,
-			timestamp: timestamp || new Date(),
+			timestamp: utc.toISOString(),
+			utc: utc,
 			type: type,
 			level: logLevels.indexOf( type ),
 			namespace: this.namespace

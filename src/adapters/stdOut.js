@@ -1,9 +1,8 @@
 var colors = require( "colors" );
-var moment = require( "moment" );
 var _ = require( "lodash" );
 var adapter;
 
-function configure( config ) {
+function configure( config, formatter ) {
 	var envDebug = !!process.env.DEBUG;
 
 	var theme = _.extend( {
@@ -23,7 +22,8 @@ function configure( config ) {
 			} else {
 				msg = data.msg;
 			}
-			console.log( colors[ data.type ]( moment( data.timestamp ).format(), data.namespace || "", msg ) );
+			var timestamp = formatter( config, data );
+			console.log( colors[ data.type ]( timestamp, data.namespace || "", msg ) );
 		},
 		constraint: function( data ) {
 			return data.level <= config.level && ( !config.bailIfDebug || ( config.bailIfDebug && !envDebug ) );
@@ -31,7 +31,7 @@ function configure( config ) {
 	};
 }
 
-module.exports = function( config ) {
-	configure( config );
+module.exports = function( config, formatter ) {
+	configure( config, formatter );
 	return adapter;
 };

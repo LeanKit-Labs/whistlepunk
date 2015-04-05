@@ -3,61 +3,191 @@ describe( "Built-in Adapters", function() {
 	describe( "when using the stdOut adapter", function() {
 
 		describe( "when debug is not enabled", function() {
+			describe( "with default timestamp", function() {
 
-			var logFactory, logger, consoleLog, msg, noMsg, wp;
-			before( function() {
-				msg = "Testing stdOut";
-				noMsg = "Shouldn't show up";
-				wp = getWhistlepunk();
-				consoleLog = sinon.spy( console, "log" );
-				logFactory = wp( postal, {
-					adapters: {
-						stdOut: {
-							level: 2
+				var logFactory, logger, consoleLog, msg, noMsg, wp, timestamp;
+				before( function() {
+					msg = "Testing stdOut";
+					timestamp = /[0-9]{4}[-][0-9]{2}[-][0-9]{2}T[0-9]{2}[:][0-9]{2}[:][0-9]{2}[.][0-9]{3}Z/;
+					noMsg = "Shouldn't show up";
+					wp = getWhistlepunk();
+					consoleLog = sinon.spy( console, "log" );
+					logFactory = wp( postal, {
+						adapters: {
+							stdOut: {
+								level: 2
+							}
+						}
+					} );
+					logger = logFactory( "stdout-test" );
+					logger.warn( msg );
+					logger.info( noMsg );
+				} );
+
+				after( function() {
+					logger.reset();
+					postal.reset();
+					consoleLog.restore();
+				} );
+
+				it( "should log the message to the console (with ISO8601 in GMT)", function() {
+					var count = consoleLog.callCount;
+					var regex = new RegExp( msg );
+					var pass = false;
+
+					var arg;
+					for (var i = 0; i < count; i++) {
+						arg = consoleLog.getCall( i ).args[ 0 ];
+						if ( regex.test( arg ) && timestamp.test( arg ) ) {
+							pass = true;
 						}
 					}
+
+					pass.should.be.ok;
 				} );
-				logger = logFactory( "stdout-test" );
-				logger.warn( msg );
-				logger.info( noMsg );
-			} );
 
-			after( function() {
-				logger.reset();
-				postal.reset();
-				consoleLog.restore();
-			} );
+				it( "should not log any statements above its level", function() {
+					var count = consoleLog.callCount;
+					var regex = new RegExp( noMsg );
+					var pass = true;
 
-			it( "should log the message to the console", function() {
-				var count = consoleLog.callCount;
-				var regex = new RegExp( msg );
-				var pass = false;
-
-				var arg;
-				for (var i = 0; i < count; i++) {
-					arg = consoleLog.getCall( i ).args[ 0 ];
-					if ( regex.test( arg ) ) {
-						pass = true;
+					var arg;
+					for (var i = 0; i < count; i++) {
+						arg = consoleLog.getCall( i ).args[ 0 ];
+						if ( regex.test( arg ) ) {
+							pass = false;
+						}
 					}
-				}
 
-				pass.should.be.ok;
+					pass.should.be.ok;
+				} );
 			} );
 
-			it( "should not log any statements above its level", function() {
-				var count = consoleLog.callCount;
-				var regex = new RegExp( noMsg );
-				var pass = true;
+			describe( "with custom timestamp", function() {
 
-				var arg;
-				for (var i = 0; i < count; i++) {
-					arg = consoleLog.getCall( i ).args[ 0 ];
-					if ( regex.test( arg ) ) {
-						pass = false;
+				var logFactory, logger, consoleLog, msg, noMsg, wp, timestamp;
+				before( function() {
+					msg = "Testing stdOut";
+					timestamp = /[0-9]{1,2}[:][0-9]{2}[ ](AM|PM)[ ][-][ ][a-zA-Z]{3}[ ][0-9]{1,2}[a-z]{2,3}[,][ ][0-9]{4}[-+][0]{4}/;
+					noMsg = "Shouldn't show up";
+					wp = getWhistlepunk();
+					consoleLog = sinon.spy( console, "log" );
+					logFactory = wp( postal, {
+						adapters: {
+							stdOut: {
+								level: 2,
+								timestamp: {
+									format: "h:mm A - MMM Do, YYYYZZ"
+								}
+							}
+						}
+					} );
+					logger = logFactory( "stdout-test" );
+					logger.warn( msg );
+					logger.info( noMsg );
+				} );
+
+				after( function() {
+					logger.reset();
+					postal.reset();
+					consoleLog.restore();
+				} );
+
+				it( "should log the message to the console (with custom in GMT)", function() {
+					var count = consoleLog.callCount;
+					var regex = new RegExp( msg );
+					var pass = false;
+
+					var arg;
+					for (var i = 0; i < count; i++) {
+						arg = consoleLog.getCall( i ).args[ 0 ];
+						if ( regex.test( arg ) && timestamp.test( arg ) ) {
+							pass = true;
+						}
 					}
-				}
 
-				pass.should.be.ok;
+					pass.should.be.ok;
+				} );
+
+				it( "should not log any statements above its level", function() {
+					var count = consoleLog.callCount;
+					var regex = new RegExp( noMsg );
+					var pass = true;
+
+					var arg;
+					for (var i = 0; i < count; i++) {
+						arg = consoleLog.getCall( i ).args[ 0 ];
+						if ( regex.test( arg ) ) {
+							pass = false;
+						}
+					}
+
+					pass.should.be.ok;
+				} );
+			} );
+
+			describe( "with custom timestamp", function() {
+
+				var logFactory, logger, consoleLog, msg, noMsg, wp, timestamp;
+				before( function() {
+					msg = "Testing stdOut";
+					timestamp = /[0-9]{1,2}[:][0-9]{2}[ ](AM|PM)[ ][-][ ][a-zA-Z]{3}[ ][0-9]{1,2}[a-z]{2,3}[,][ ][0-9]{4}[-+][0-9][1-9][0-9]{2}/;
+					noMsg = "Shouldn't show up";
+					wp = getWhistlepunk();
+					consoleLog = sinon.spy( console, "log" );
+					logFactory = wp( postal, {
+						adapters: {
+							stdOut: {
+								level: 2,
+								timestamp: {
+									local: true,
+									format: "h:mm A - MMM Do, YYYYZZ"
+								}
+							}
+						}
+					} );
+					logger = logFactory( "stdout-test" );
+					logger.warn( msg );
+					logger.info( noMsg );
+				} );
+
+				after( function() {
+					logger.reset();
+					postal.reset();
+					consoleLog.restore();
+				} );
+
+				it( "should log the message to the console (with custom in GMT)", function() {
+					var count = consoleLog.callCount;
+					var regex = new RegExp( msg );
+					var pass = false;
+
+					var arg;
+					for (var i = 0; i < count; i++) {
+						arg = consoleLog.getCall( i ).args[ 0 ];
+						if ( regex.test( arg ) && timestamp.test( arg ) ) {
+							pass = true;
+						}
+					}
+
+					pass.should.be.ok;
+				} );
+
+				it( "should not log any statements above its level", function() {
+					var count = consoleLog.callCount;
+					var regex = new RegExp( noMsg );
+					var pass = true;
+
+					var arg;
+					for (var i = 0; i < count; i++) {
+						arg = consoleLog.getCall( i ).args[ 0 ];
+						if ( regex.test( arg ) ) {
+							pass = false;
+						}
+					}
+
+					pass.should.be.ok;
+				} );
 			} );
 		} );
 
