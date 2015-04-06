@@ -9,7 +9,7 @@ module.exports = function( channel, resolve ) {
 		this.adapters = adapters;
 	}
 
-	Logger.prototype.logIt = function logIt( type, data, timestamp ) {
+	Logger.prototype.logIt = function logIt( type, data ) {
 		var msg = ( typeof data[ 0 ] === "string" ) ? util.format.apply( null, data ) : data;
 		var utc = moment.utc();
 		var payload = {

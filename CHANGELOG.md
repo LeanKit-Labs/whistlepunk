@@ -1,5 +1,4 @@
-
-## 0.2.x
+## 0.3.x
 
 ### Current
  * Add support for topic based filtering on adapters
@@ -8,6 +7,8 @@
  * Provide consistent default timestamp using GMZ timezone in ISO
  * Add raw moment timestamp to data published to adapters
  * Add timestamp configuration to adapter configuration to allow users to customize format
+
+## 0.2.x
 
 ### 0.2.1
  * Refactored Logger to accept an optional timestamp

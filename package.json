@@ -1,6 +1,6 @@
 {
   "name": "whistlepunk",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "homepage": "https://github.com/LeanKit-Labs/whistlepunk",
   "description": "Logging abstraction that signals any enabled adapters of a new log message.",
   "author": "LeanKit",
@@ -41,10 +41,10 @@
   "dependencies": {
     "colors": "1.0.3",
     "debug": "2.1.1",
-    "lodash": "~3.5.0",
-    "machina": "1.0.0-2",
+    "lodash": "3.x",
+    "machina": "1.x",
     "moment": "2.9.0",
-    "when": "~3.7.2"
+    "when": "3.x"
   },
   "devDependencies": {
     "chai": "^2.1.0",
@@ -59,7 +59,7 @@
     "jshint-stylish": "^1.0.0",
     "mocha": "~2.1.0",
     "open": "0.0.5",
-    "postal": "~0.12.3",
+    "postal": "1.x",
     "proxyquire": "^1.4.0",
     "sinon": "^1.12.2",
     "sinon-as-promised": "^2.0.3",
