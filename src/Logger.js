@@ -1,9 +1,7 @@
 var util = require( "util" );
 var _ = require( "lodash" );
 var moment = require( "moment" );
-var postal = require( "postal" );
-var resolve = postal.configuration.resolver.compare.bind( postal.configuration.resolver );
-module.exports = function( channel ) {
+module.exports = function( channel, resolve ) {
 	var logLevels = [ "off", "error", "warn", "info", "debug" ];
 
 	function Logger( ns, adapters ) {

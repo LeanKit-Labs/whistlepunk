@@ -15,7 +15,9 @@ describe( "Logger.js", function() {
 				}
 			]
 		};
-		logger = new (ctorFactory( channelStub ))( "test", [ adapterStub ] );
+		logger = new (ctorFactory( channelStub, function() {
+			return true;
+		} ))( "test", [ adapterStub ] );
 	} );
 
 	describe( "when calling reset", function() {

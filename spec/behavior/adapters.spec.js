@@ -5,12 +5,14 @@ describe( "Built-in Adapters", function() {
 		describe( "when debug is not enabled", function() {
 			describe( "with default timestamp", function() {
 
-				var logFactory, logger, consoleLog, msg, noMsg, wp, timestamp;
+				var logFactory, logger, consoleLog, msg, noMsg, wp, timestamp, realLog;
 				before( function() {
 					msg = "Testing stdOut";
 					timestamp = /[0-9]{4}[-][0-9]{2}[-][0-9]{2}T[0-9]{2}[:][0-9]{2}[:][0-9]{2}[.][0-9]{3}Z/;
 					noMsg = "Shouldn't show up";
 					wp = getWhistlepunk();
+					realLog = console.log;
+					console.log = function() {};
 					consoleLog = sinon.spy( console, "log" );
 					logFactory = wp( postal, {
 						adapters: {
@@ -28,6 +30,7 @@ describe( "Built-in Adapters", function() {
 					logger.reset();
 					postal.reset();
 					consoleLog.restore();
+					console.log = realLog;
 				} );
 
 				it( "should log the message to the console (with ISO8601 in GMT)", function() {
@@ -65,12 +68,14 @@ describe( "Built-in Adapters", function() {
 
 			describe( "with custom timestamp", function() {
 
-				var logFactory, logger, consoleLog, msg, noMsg, wp, timestamp;
+				var logFactory, logger, consoleLog, msg, noMsg, wp, timestamp, realLog;
 				before( function() {
 					msg = "Testing stdOut";
 					timestamp = /[0-9]{1,2}[:][0-9]{2}[ ](AM|PM)[ ][-][ ][a-zA-Z]{3}[ ][0-9]{1,2}[a-z]{2,3}[,][ ][0-9]{4}[-+][0]{4}/;
 					noMsg = "Shouldn't show up";
 					wp = getWhistlepunk();
+					realLog = console.log;
+					console.log = function() {};
 					consoleLog = sinon.spy( console, "log" );
 					logFactory = wp( postal, {
 						adapters: {
@@ -91,6 +96,7 @@ describe( "Built-in Adapters", function() {
 					logger.reset();
 					postal.reset();
 					consoleLog.restore();
+					console.log = realLog;
 				} );
 
 				it( "should log the message to the console (with custom in GMT)", function() {
@@ -128,12 +134,14 @@ describe( "Built-in Adapters", function() {
 
 			describe( "with custom timestamp", function() {
 
-				var logFactory, logger, consoleLog, msg, noMsg, wp, timestamp;
+				var logFactory, logger, consoleLog, msg, noMsg, wp, timestamp, realLog;
 				before( function() {
 					msg = "Testing stdOut";
 					timestamp = /[0-9]{1,2}[:][0-9]{2}[ ](AM|PM)[ ][-][ ][a-zA-Z]{3}[ ][0-9]{1,2}[a-z]{2,3}[,][ ][0-9]{4}[-+][0-9][1-9][0-9]{2}/;
 					noMsg = "Shouldn't show up";
 					wp = getWhistlepunk();
+					realLog = console.log;
+					console.log = function() {};
 					consoleLog = sinon.spy( console, "log" );
 					logFactory = wp( postal, {
 						adapters: {
@@ -155,6 +163,7 @@ describe( "Built-in Adapters", function() {
 					logger.reset();
 					postal.reset();
 					consoleLog.restore();
+					console.log = realLog;
 				} );
 
 				it( "should log the message to the console (with custom in GMT)", function() {
@@ -194,9 +203,12 @@ describe( "Built-in Adapters", function() {
 
 				var logFactory, logger, consoleLog, msg, noMsg, wp, timestamp;
 				var filter = /(?:\S+\s){2}([a-zA-Z0-9.]+)/;
+				var realLog;
 				before( function() {
 					msg = "Testing stdOut";
 					wp = getWhistlepunk();
+					realLog = console.log;
+					console.log = function() {};
 					consoleLog = sinon.spy( console, "log" );
 					logFactory = wp( postal, {
 						adapters: {
@@ -254,8 +266,10 @@ describe( "Built-in Adapters", function() {
 				} );
 
 				after( function() {
-					postal.reset();
 					consoleLog.restore();
+					console.log = realLog;
+					postal.reset();
+
 				} );
 
 				it( "should log the correct number of messages", function() {
