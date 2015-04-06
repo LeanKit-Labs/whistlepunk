@@ -1,6 +1,7 @@
 var util = require( "util" );
 var _ = require( "lodash" );
-module.exports = function( channel ) {
+var moment = require( "moment" );
+module.exports = function( channel, resolve ) {
 	var logLevels = [ "off", "error", "warn", "info", "debug" ];
 
 	function Logger( ns, adapters ) {
@@ -10,22 +11,27 @@ module.exports = function( channel ) {
 
 	Logger.prototype.logIt = function logIt( type, data, timestamp ) {
 		var msg = ( typeof data[ 0 ] === "string" ) ? util.format.apply( null, data ) : data;
+		var utc = moment.utc();
 		var payload = {
 			msg: msg,
-			timestamp: timestamp || new Date(),
+			timestamp: utc.toISOString(),
+			utc: utc,
 			type: type,
 			level: logLevels.indexOf( type ),
 			namespace: this.namespace
 		};
-		channel.publish( type, payload );
+		channel.publish( this.namespace, payload );
 	};
 
 	Logger.prototype.reset = function reset() {
-
 		_.each( this.adapters, function( adapter ) {
-			adapter.subscription.unsubscribe();
-		} );
-
+			_.each( adapter.subscriptions, function( subscription ) {
+				var topic = subscription.topic || "#";
+				if ( resolve( topic, this.namespace ) ) {
+					subscription.unsubscribe();
+				}
+			}.bind( this ) );
+		}.bind( this ) );
 	};
 
 	logLevels.slice( 1 ).forEach( function( level ) {

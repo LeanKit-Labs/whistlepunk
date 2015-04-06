@@ -19,7 +19,7 @@ function createAhAdapter( fount ) {
 	};
 }
 
-module.exports = function( config, fount ) {
+module.exports = function( config, formatter, fount ) {
 	adapter = adapter || ( fount ? createAhAdapter( fount ) : noOpAdapter );
 	return adapter;
 };
