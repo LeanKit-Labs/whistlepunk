@@ -48,14 +48,24 @@ function wireUp( adapterFsm, config, channel, adapter ) {
 		}
 	}
 
-	var newSub = channel
-		.subscribe( adapter.topic || "#", handler )
-		.constraint( adapter.constraint || defaultConstraint( config ) );
-	if ( adapter.subscription ) {
-		adapter.subscription.unsubscribe();
+	var topics;
+	if ( config.topic && _.isArray( config.topic ) ) {
+		topics = config.topic;
+	} else {
+		topics = ( config.topic || "#" ).split( "," );
 	}
+	var subscriptions = _.map( topics, function( topic ) {
+		return channel
+			.subscribe( topic, handler )
+			.constraint( adapter.constraint || defaultConstraint( config ) );
+	} );
 
-	adapter.subscription = newSub;
+	if ( adapter.subscriptions ) {
+		_.each( adapter.subscriptions, function( subscription ) {
+			subscription.unsubscribe();
+		} );
+	}
+	adapter.subscriptions = subscriptions;
 }
 
 module.exports = function( channel, config, fount ) {

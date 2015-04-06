@@ -9,9 +9,11 @@ describe( "Logger.js", function() {
 			publish: sinon.stub(),
 		};
 		adapterStub = {
-			subscription: {
-				unsubscribe: sinon.stub()
-			}
+			subscriptions: [
+				{
+					unsubscribe: sinon.stub()
+				}
+			]
 		};
 		logger = new (ctorFactory( channelStub ))( "test", [ adapterStub ] );
 	} );
@@ -19,7 +21,7 @@ describe( "Logger.js", function() {
 	describe( "when calling reset", function() {
 		it( "should unsubscribe all adapters", function() {
 			logger.reset();
-			adapterStub.subscription.unsubscribe.should.be.calledOnce;
+			adapterStub.subscriptions[ 0 ].unsubscribe.should.be.calledOnce;
 		} );
 	} );
 } );

@@ -2,6 +2,9 @@
 ## 0.2.x
 
 ### Current
+ * Add support for topic based filtering on adapters
+ * Support multiple subscription topics for adapters
+ * Calling reset on a log should only affect adapter subscriptions that match the log's namespace
  * Provide consistent default timestamp using GMZ timezone in ISO
  * Add raw moment timestamp to data published to adapters
  * Add timestamp configuration to adapter configuration to allow users to customize format

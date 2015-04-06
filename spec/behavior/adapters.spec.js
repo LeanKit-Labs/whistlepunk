@@ -189,6 +189,103 @@ describe( "Built-in Adapters", function() {
 					pass.should.be.ok;
 				} );
 			} );
+
+			describe( "with multiple topics and loggers", function() {
+
+				var logFactory, logger, consoleLog, msg, noMsg, wp, timestamp;
+				var filter = /(?:\S+\s){2}([a-zA-Z0-9.]+)/;
+				before( function() {
+					msg = "Testing stdOut";
+					wp = getWhistlepunk();
+					consoleLog = sinon.spy( console, "log" );
+					logFactory = wp( postal, {
+						adapters: {
+							stdOut: {
+								level: 2,
+								topic: [ "one.#", "two.#" ]
+							}
+						}
+					} );
+					var logger1a = logFactory( "one.a.test" );
+					var logger1b = logFactory( "one.b.test" );
+					var logger2a = logFactory( "two.a.test" );
+					var logger2b = logFactory( "two.b.test" );
+					var ignored = logFactory( "three" );
+
+					// log entries that should show up
+					logger1a.error( "one.a.error.1" );
+					logger1a.warn( "one.a.warn.1" );
+					logger1b.error( "one.b.error.1" );
+					logger1b.warn( "one.b.warn.1" );
+					logger2a.error( "two.a.error.1" );
+					logger2a.warn( "two.a.warn.1" );
+					logger2b.error( "two.b.error.1" );
+					logger2b.warn( "two.b.warn.1" );
+
+					// remove adapters from loggers with like topics
+					logger2b.reset();
+
+					// make a second set of writes
+					logger1a.error( "one.a.error.2" );
+					logger1a.warn( "one.a.warn.2" );
+					logger1b.error( "one.b.error.2" );
+					logger1b.warn( "one.b.warn.2" );
+
+					// log entries that should not show up
+					logger1a.info( "one.a.info" );
+					logger1a.debug( "one.a.info" );
+					logger1b.info( "one.b.info" );
+					logger1b.debug( "one.b.info" );
+					logger2a.info( "two.a.info" );
+					logger2a.debug( "two.a.info" );
+					logger2b.info( "two.b.info" );
+					logger2b.debug( "two.b.info" );
+					logger2a.error( "two.a.error.2" );
+					logger2a.warn( "two.a.warn.2" );
+					logger2b.error( "two.b.error.2" );
+					logger2b.warn( "two.b.warn.2" );
+					ignored.error( "ignored.error" );
+					ignored.warn( "ignored.warn" );
+					ignored.info( "ignored.info" );
+					ignored.debug( "ignored.debug" );
+
+					logger1a.reset();
+					logger1b.reset();
+				} );
+
+				after( function() {
+					postal.reset();
+					consoleLog.restore();
+				} );
+
+				it( "should log the correct number of messages", function() {
+					consoleLog.callCount.should.equal( 12 );
+				} );
+
+				it( "should log the correct messages", function() {
+					var messages = _.map( _.range( 0, consoleLog.callCount ), function( index ) {
+						var txt = consoleLog.getCall( index ).args[ 0 ];
+						if ( filter.test( txt ) ) {
+							return filter.exec( txt )[ 1 ];
+						}
+					} );
+					messages = _.filter( messages );
+					messages.should.eql( [
+						"one.a.error.1",
+						"one.a.warn.1",
+						"one.b.error.1",
+						"one.b.warn.1",
+						"two.a.error.1",
+						"two.a.warn.1",
+						"two.b.error.1",
+						"two.b.warn.1",
+						"one.a.error.2",
+						"one.a.warn.2",
+						"one.b.error.2",
+						"one.b.warn.2"
+					] );
+				} );
+			} );
 		} );
 
 		describe( "when debug is enabled", function() {

@@ -1,6 +1,8 @@
 var util = require( "util" );
 var _ = require( "lodash" );
 var moment = require( "moment" );
+var postal = require( "postal" );
+var resolve = postal.configuration.resolver.compare.bind( postal.configuration.resolver );
 module.exports = function( channel ) {
 	var logLevels = [ "off", "error", "warn", "info", "debug" ];
 
@@ -20,15 +22,18 @@ module.exports = function( channel ) {
 			level: logLevels.indexOf( type ),
 			namespace: this.namespace
 		};
-		channel.publish( type, payload );
+		channel.publish( this.namespace, payload );
 	};
 
 	Logger.prototype.reset = function reset() {
-
 		_.each( this.adapters, function( adapter ) {
-			adapter.subscription.unsubscribe();
-		} );
-
+			_.each( adapter.subscriptions, function( subscription ) {
+				var topic = subscription.topic || "#";
+				if ( resolve( topic, this.namespace ) ) {
+					subscription.unsubscribe();
+				}
+			}.bind( this ) );
+		}.bind( this ) );
 	};
 
 	logLevels.slice( 1 ).forEach( function( level ) {
