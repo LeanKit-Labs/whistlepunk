@@ -24,13 +24,13 @@ describe( "Built-in Adapters", function() {
 					logger = logFactory( "stdout-test" );
 					logger.warn( msg );
 					logger.info( noMsg );
+					consoleLog.restore();
+					console.log = realLog;
 				} );
 
 				after( function() {
 					logger.reset();
 					postal.reset();
-					consoleLog.restore();
-					console.log = realLog;
 				} );
 
 				it( "should log the message to the console (with ISO8601 in GMT)", function() {
@@ -90,13 +90,13 @@ describe( "Built-in Adapters", function() {
 					logger = logFactory( "stdout-test" );
 					logger.warn( msg );
 					logger.info( noMsg );
+					consoleLog.restore();
+					console.log = realLog;
 				} );
 
 				after( function() {
 					logger.reset();
 					postal.reset();
-					consoleLog.restore();
-					console.log = realLog;
 				} );
 
 				it( "should log the message to the console (with custom in GMT)", function() {
@@ -157,13 +157,13 @@ describe( "Built-in Adapters", function() {
 					logger = logFactory( "stdout-test" );
 					logger.warn( msg );
 					logger.info( noMsg );
+					consoleLog.restore();
+					console.log = realLog;
 				} );
 
 				after( function() {
 					logger.reset();
 					postal.reset();
-					consoleLog.restore();
-					console.log = realLog;
 				} );
 
 				it( "should log the message to the console (with custom in GMT)", function() {
@@ -263,13 +263,12 @@ describe( "Built-in Adapters", function() {
 
 					logger1a.reset();
 					logger1b.reset();
+					consoleLog.restore();
+					console.log = realLog;
 				} );
 
 				after( function() {
-					consoleLog.restore();
-					console.log = realLog;
 					postal.reset();
-
 				} );
 
 				it( "should log the correct number of messages", function() {
