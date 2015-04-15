@@ -1,6 +1,9 @@
 ## 0.3.x
 
-### Current
+## 0.3.1
+ * Fix bug in loading adapters from relative paths
+
+### 0.3.0
  * Add support for topic based filtering on adapters
  * Support multiple subscription topics for adapters
  * Calling reset on a log should only affect adapter subscriptions that match the log's namespace
