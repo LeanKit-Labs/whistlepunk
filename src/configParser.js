@@ -72,7 +72,12 @@ module.exports = function( channel, config, fount ) {
 	var adapterFsm = require( "./adapter.fsm" );
 
 	return _.map( config.adapters, function( adapterCfg, name ) {
-		var adapterPath = builtIn[ name ] || require.resolve( name );
+		var adapterPath;
+		if ( /[\/]/.test( name ) ) {
+			adapterPath = require.resolve( path.resolve( process.cwd(), name ) );
+		} else {
+			adapterPath = builtIn[ name ] || require.resolve( name );
+		}
 		var adapter = require( adapterPath )( adapterCfg, timeFormatter, fount );
 
 		wireUp( adapterFsm, adapterCfg, channel, adapter );
