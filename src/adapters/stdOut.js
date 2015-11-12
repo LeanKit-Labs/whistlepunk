@@ -12,6 +12,13 @@ function configure( config, formatter ) {
 		error: "red"
 	}, config.theme );
 
+  var logType = {
+    info: "info",
+    warn: "warn",
+    debug: "log",
+    error: "error"
+  };
+
 	colors.setTheme( theme );
 
 	adapter = adapter || {
@@ -23,7 +30,7 @@ function configure( config, formatter ) {
 				msg = data.msg;
 			}
 			var timestamp = formatter( config, data );
-			console.log( colors[ data.type ]( timestamp, data.namespace || "", msg ) );
+			console[logType[data.type]]( colors[ data.type ]( timestamp, data.namespace || "", msg ) );
 		},
 		constraint: function( data ) {
 			return data.level <= config.level && ( !config.bailIfDebug || ( config.bailIfDebug && !envDebug ) );
