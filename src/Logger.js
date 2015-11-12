@@ -5,7 +5,7 @@ module.exports = function( channel, resolve ) {
 	var logLevels = [ "off", "error", "warn", "info", "debug" ];
 
 	function Logger( ns, adapters ) {
-		this.namespace = ns || "whistlepunk";
+		this.namespace = ns || "";
 		this.adapters = adapters;
 	}
 
