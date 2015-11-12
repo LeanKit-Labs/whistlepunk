@@ -15,7 +15,7 @@ var whistlepunk = require("whistlepunk");
 var config =  {
 	adapters: {
 		stdOut: {
-			level: 5,
+			level: 4,
 			bailIfDebug: true, // disables stdOut if DEBUG=* is in play
 			timestamp: {
 				local: true, // defaults to UTC
@@ -24,7 +24,7 @@ var config =  {
 			topic: "#", // default topic
 		},
 		"debug": {
-			level: 5
+			level: 4
 		}
 	}
 };
@@ -94,14 +94,14 @@ var whistlepunk = require("whistlepunk");
 var config =  {
 	adapters: {
 		stdOut: {
-			level: 5,
+			level: 4,
 			bailIfDebug: true // disables stdOut if DEBUG=* is in play
 		},
 		"debug": {
-			level: 5
+			level: 4
 		},
 		autohost: {
-			level: 5
+			level: 4
 		}
 	}
 };
