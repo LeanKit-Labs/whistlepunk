@@ -9,6 +9,9 @@ Logging.....sigh. It's necessary, but often intrusive, heavy-handed and cumberso
 If whistlepunk knows about your adapter, then including a section for that adapter in your configuration will enable it. For example, this config enables the "stdOut" and "debug" built-in adapters:
 
 ```javascript
+var postal = require("postal");
+var whistlepunk = require("whistlepunk");
+
 var config =  {
 	adapters: {
 		stdOut: {
@@ -25,9 +28,10 @@ var config =  {
 		}
 	}
 };
-var postal = require("postal");
-var logger = require("whistlepunk")(postal, config);
 
+var loggerFactory = whistlepunk(postal, config);
+
+var logger = loggerFactory();
 logger.warn("Watch it, I'm warning you!");
 ```
 
@@ -84,6 +88,9 @@ See the [stdOut adapter](/blob/master/src/adapters/stdOut.js) for an example use
 It's possible to use autohost to emit log messages over websockets to a client. To do so, you need to ensure autohost is registered with its fount instances as "ah", and pass the autohost fount instance to whistlepunk:
 
 ```javascript
+var postal = require("postal");
+var whistlepunk = require("whistlepunk");
+
 var config =  {
 	adapters: {
 		stdOut: {
@@ -99,8 +106,9 @@ var config =  {
 	}
 };
 // assuming autohost instance is assigned to a "host" variable
-var logger = require("whistlepunk")(postal, config, host.fount);
+var loggerFactory = whistlepunk(postal, config, host.fount);
 
+var logger = loggerFactory();
 logger.debug("More info than you'd typically want to sift through....");
 ```
 
