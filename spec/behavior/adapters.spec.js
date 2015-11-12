@@ -5,15 +5,14 @@ describe( "Built-in Adapters", function() {
 		describe( "when debug is not enabled", function() {
 			describe( "with default timestamp", function() {
 
-				var logFactory, logger, consoleLog, msg, noMsg, wp, timestamp, realLog;
+				var logFactory, logger, consoleWarn, msg, noMsg, wp, timestamp, realLog;
 				before( function() {
 					msg = "Testing stdOut";
 					timestamp = /[0-9]{4}[-][0-9]{2}[-][0-9]{2}T[0-9]{2}[:][0-9]{2}[:][0-9]{2}[.][0-9]{3}Z/;
 					noMsg = "Shouldn't show up";
 					wp = getWhistlepunk();
-					realLog = console.log;
-					console.log = function() {};
-					consoleLog = sinon.spy( console, "log" );
+          stubConsoleMethods();
+					consoleWarn = sinon.spy( console, "warn" );
 					logFactory = wp( postal, {
 						adapters: {
 							stdOut: {
@@ -24,23 +23,23 @@ describe( "Built-in Adapters", function() {
 					logger = logFactory( "stdout-test" );
 					logger.warn( msg );
 					logger.info( noMsg );
-					consoleLog.restore();
-					console.log = realLog;
 				} );
 
 				after( function() {
 					logger.reset();
 					postal.reset();
+					consoleWarn.restore();
+					restoreConsoleMethods();
 				} );
 
 				it( "should log the message to the console (with ISO8601 in GMT)", function() {
-					var count = consoleLog.callCount;
+					var count = consoleWarn.callCount;
 					var regex = new RegExp( msg );
 					var pass = false;
 
 					var arg;
 					for (var i = 0; i < count; i++) {
-						arg = consoleLog.getCall( i ).args[ 0 ];
+						arg = consoleWarn.getCall( i ).args[ 0 ];
 						if ( regex.test( arg ) && timestamp.test( arg ) ) {
 							pass = true;
 						}
@@ -50,13 +49,13 @@ describe( "Built-in Adapters", function() {
 				} );
 
 				it( "should not log any statements above its level", function() {
-					var count = consoleLog.callCount;
+					var count = consoleWarn.callCount;
 					var regex = new RegExp( noMsg );
 					var pass = true;
 
 					var arg;
 					for (var i = 0; i < count; i++) {
-						arg = consoleLog.getCall( i ).args[ 0 ];
+						arg = consoleWarn.getCall( i ).args[ 0 ];
 						if ( regex.test( arg ) ) {
 							pass = false;
 						}
@@ -68,15 +67,14 @@ describe( "Built-in Adapters", function() {
 
 			describe( "with custom timestamp", function() {
 
-				var logFactory, logger, consoleLog, msg, noMsg, wp, timestamp, realLog;
+				var logFactory, logger, consoleWarn, msg, noMsg, wp, timestamp, realLog;
 				before( function() {
 					msg = "Testing stdOut";
 					timestamp = /[0-9]{1,2}[:][0-9]{2}[ ](AM|PM)[ ][-][ ][a-zA-Z]{3}[ ][0-9]{1,2}[a-z]{2,3}[,][ ][0-9]{4}[-+][0]{4}/;
 					noMsg = "Shouldn't show up";
 					wp = getWhistlepunk();
-					realLog = console.log;
-					console.log = function() {};
-					consoleLog = sinon.spy( console, "log" );
+          stubConsoleMethods();
+					consoleWarn = sinon.spy( console, "warn" );
 					logFactory = wp( postal, {
 						adapters: {
 							stdOut: {
@@ -90,23 +88,23 @@ describe( "Built-in Adapters", function() {
 					logger = logFactory( "stdout-test" );
 					logger.warn( msg );
 					logger.info( noMsg );
-					consoleLog.restore();
-					console.log = realLog;
 				} );
 
 				after( function() {
 					logger.reset();
 					postal.reset();
+					restoreConsoleMethods();
+					consoleWarn.restore();
 				} );
 
 				it( "should log the message to the console (with custom in GMT)", function() {
-					var count = consoleLog.callCount;
+					var count = consoleWarn.callCount;
 					var regex = new RegExp( msg );
 					var pass = false;
 
 					var arg;
 					for (var i = 0; i < count; i++) {
-						arg = consoleLog.getCall( i ).args[ 0 ];
+						arg = consoleWarn.getCall( i ).args[ 0 ];
 						if ( regex.test( arg ) && timestamp.test( arg ) ) {
 							pass = true;
 						}
@@ -116,13 +114,13 @@ describe( "Built-in Adapters", function() {
 				} );
 
 				it( "should not log any statements above its level", function() {
-					var count = consoleLog.callCount;
+					var count = consoleWarn.callCount;
 					var regex = new RegExp( noMsg );
 					var pass = true;
 
 					var arg;
 					for (var i = 0; i < count; i++) {
-						arg = consoleLog.getCall( i ).args[ 0 ];
+						arg = consoleWarn.getCall( i ).args[ 0 ];
 						if ( regex.test( arg ) ) {
 							pass = false;
 						}
@@ -134,15 +132,14 @@ describe( "Built-in Adapters", function() {
 
 			describe( "with custom timestamp", function() {
 
-				var logFactory, logger, consoleLog, msg, noMsg, wp, timestamp, realLog;
+				var logFactory, logger, consoleWarn, msg, noMsg, wp, timestamp, realLog;
 				before( function() {
 					msg = "Testing stdOut";
 					timestamp = /[0-9]{1,2}[:][0-9]{2}[ ](AM|PM)[ ][-][ ][a-zA-Z]{3}[ ][0-9]{1,2}[a-z]{2,3}[,][ ][0-9]{4}[-+][0-9][1-9][0-9]{2}/;
 					noMsg = "Shouldn't show up";
 					wp = getWhistlepunk();
-					realLog = console.log;
-					console.log = function() {};
-					consoleLog = sinon.spy( console, "log" );
+          stubConsoleMethods();
+					consoleWarn = sinon.spy( console, "warn" );
 					logFactory = wp( postal, {
 						adapters: {
 							stdOut: {
@@ -157,23 +154,23 @@ describe( "Built-in Adapters", function() {
 					logger = logFactory( "stdout-test" );
 					logger.warn( msg );
 					logger.info( noMsg );
-					consoleLog.restore();
-					console.log = realLog;
 				} );
 
 				after( function() {
 					logger.reset();
 					postal.reset();
+					consoleWarn.restore();
+					restoreConsoleMethods();
 				} );
 
 				it( "should log the message to the console (with custom in GMT)", function() {
-					var count = consoleLog.callCount;
+					var count = consoleWarn.callCount;
 					var regex = new RegExp( msg );
 					var pass = false;
 
 					var arg;
 					for (var i = 0; i < count; i++) {
-						arg = consoleLog.getCall( i ).args[ 0 ];
+						arg = consoleWarn.getCall( i ).args[ 0 ];
 						if ( regex.test( arg ) && timestamp.test( arg ) ) {
 							pass = true;
 						}
@@ -183,13 +180,13 @@ describe( "Built-in Adapters", function() {
 				} );
 
 				it( "should not log any statements above its level", function() {
-					var count = consoleLog.callCount;
+					var count = consoleWarn.callCount;
 					var regex = new RegExp( noMsg );
 					var pass = true;
 
 					var arg;
 					for (var i = 0; i < count; i++) {
-						arg = consoleLog.getCall( i ).args[ 0 ];
+						arg = consoleWarn.getCall( i ).args[ 0 ];
 						if ( regex.test( arg ) ) {
 							pass = false;
 						}
@@ -201,15 +198,17 @@ describe( "Built-in Adapters", function() {
 
 			describe( "with multiple topics and loggers", function() {
 
-				var logFactory, logger, consoleLog, msg, noMsg, wp, timestamp;
+				var logFactory, logger, consoleLog, consoleInfo, consoleError, consoleWarn, msg, noMsg, wp, timestamp;
 				var filter = /(?:\S+\s){2}([a-zA-Z0-9.]+)/;
 				var realLog;
 				before( function() {
 					msg = "Testing stdOut";
 					wp = getWhistlepunk();
-					realLog = console.log;
-					console.log = function() {};
+          stubConsoleMethods();
 					consoleLog = sinon.spy( console, "log" );
+					consoleInfo = sinon.spy( console, "info" );
+					consoleWarn = sinon.spy( console, "warn" );
+					consoleError = sinon.spy( console, "error" );
 					logFactory = wp( postal, {
 						adapters: {
 							stdOut: {
@@ -263,40 +262,64 @@ describe( "Built-in Adapters", function() {
 
 					logger1a.reset();
 					logger1b.reset();
-					consoleLog.restore();
-					console.log = realLog;
 				} );
 
 				after( function() {
 					postal.reset();
+					consoleLog.restore();
+          consoleInfo.restore();
+          consoleWarn.restore();
+          consoleError.restore();
+					restoreConsoleMethods();
 				} );
 
 				it( "should log the correct number of messages", function() {
-					consoleLog.callCount.should.equal( 12 );
+					consoleLog.callCount.should.equal( 0 );
+        } );
+
+				it( "should info the correct number of messages", function() {
+					consoleInfo.callCount.should.equal( 0 );
+        } );
+
+				it( "should warn the correct number of messages", function() {
+					consoleWarn.callCount.should.equal( 6 );
+        } );
+
+				it( "should error the correct number of messages", function() {
+					consoleError.callCount.should.equal( 6 );
 				} );
 
 				it( "should log the correct messages", function() {
-					var messages = _.map( _.range( 0, consoleLog.callCount ), function( index ) {
-						var txt = consoleLog.getCall( index ).args[ 0 ];
+					var warnMessages = _.map( _.range( 0, consoleWarn.callCount ), function( index ) {
+						var txt = consoleWarn.getCall( index ).args[ 0 ];
 						if ( filter.test( txt ) ) {
 							return filter.exec( txt )[ 1 ];
 						}
 					} );
+					var errorMessages = _.map( _.range( 0, consoleError.callCount ), function( index ) {
+						var txt = consoleError.getCall( index ).args[ 0 ];
+						if ( filter.test( txt ) ) {
+							return filter.exec( txt )[ 1 ];
+						}
+					} );
+          
+          var messages = [].concat(warnMessages).concat(errorMessages);
 					messages = _.filter( messages );
 					messages.should.eql( [
-						"one.a.error.1",
-						"one.a.warn.1",
-						"one.b.error.1",
-						"one.b.warn.1",
-						"two.a.error.1",
-						"two.a.warn.1",
-						"two.b.error.1",
-						"two.b.warn.1",
-						"one.a.error.2",
-						"one.a.warn.2",
-						"one.b.error.2",
-						"one.b.warn.2"
+            "one.a.warn.1",
+            "one.b.warn.1",
+            "two.a.warn.1",
+            "two.b.warn.1",
+            "one.a.warn.2",
+            "one.b.warn.2",
+            "one.a.error.1",
+            "one.b.error.1",
+            "two.a.error.1",
+            "two.b.error.1",
+            "one.a.error.2",
+            "one.b.error.2"
 					] );
+
 				} );
 			} );
 		} );
