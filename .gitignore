@@ -1,4 +1,6 @@
 .DS_Store
+*.swp
+*.sw0
 *.suo
 *.csproj.user
 bin
