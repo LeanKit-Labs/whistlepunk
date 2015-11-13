@@ -11,7 +11,7 @@ describe( "Built-in Adapters", function() {
 					timestamp = /[0-9]{4}[-][0-9]{2}[-][0-9]{2}T[0-9]{2}[:][0-9]{2}[:][0-9]{2}[.][0-9]{3}Z/;
 					noMsg = "Shouldn't show up";
 					wp = getWhistlepunk();
-          stubConsoleMethods();
+					stubConsoleMethods();
 					consoleWarn = sinon.spy( console, "warn" );
 					logFactory = wp( postal, {
 						adapters: {
@@ -73,7 +73,7 @@ describe( "Built-in Adapters", function() {
 					timestamp = /[0-9]{1,2}[:][0-9]{2}[ ](AM|PM)[ ][-][ ][a-zA-Z]{3}[ ][0-9]{1,2}[a-z]{2,3}[,][ ][0-9]{4}[-+][0]{4}/;
 					noMsg = "Shouldn't show up";
 					wp = getWhistlepunk();
-          stubConsoleMethods();
+					stubConsoleMethods();
 					consoleWarn = sinon.spy( console, "warn" );
 					logFactory = wp( postal, {
 						adapters: {
@@ -138,7 +138,7 @@ describe( "Built-in Adapters", function() {
 					timestamp = /[0-9]{1,2}[:][0-9]{2}[ ](AM|PM)[ ][-][ ][a-zA-Z]{3}[ ][0-9]{1,2}[a-z]{2,3}[,][ ][0-9]{4}[-+][0-9][1-9][0-9]{2}/;
 					noMsg = "Shouldn't show up";
 					wp = getWhistlepunk();
-          stubConsoleMethods();
+					stubConsoleMethods();
 					consoleWarn = sinon.spy( console, "warn" );
 					logFactory = wp( postal, {
 						adapters: {
@@ -204,7 +204,7 @@ describe( "Built-in Adapters", function() {
 				before( function() {
 					msg = "Testing stdOut";
 					wp = getWhistlepunk();
-          stubConsoleMethods();
+					stubConsoleMethods();
 					consoleLog = sinon.spy( console, "log" );
 					consoleInfo = sinon.spy( console, "info" );
 					consoleWarn = sinon.spy( console, "warn" );
@@ -267,23 +267,23 @@ describe( "Built-in Adapters", function() {
 				after( function() {
 					postal.reset();
 					consoleLog.restore();
-          consoleInfo.restore();
-          consoleWarn.restore();
-          consoleError.restore();
+					consoleInfo.restore();
+					consoleWarn.restore();
+					consoleError.restore();
 					restoreConsoleMethods();
 				} );
 
 				it( "should log the correct number of messages", function() {
 					consoleLog.callCount.should.equal( 0 );
-        } );
+				} );
 
 				it( "should info the correct number of messages", function() {
 					consoleInfo.callCount.should.equal( 0 );
-        } );
+				} );
 
 				it( "should warn the correct number of messages", function() {
 					consoleWarn.callCount.should.equal( 6 );
-        } );
+				} );
 
 				it( "should error the correct number of messages", function() {
 					consoleError.callCount.should.equal( 6 );
@@ -302,22 +302,22 @@ describe( "Built-in Adapters", function() {
 							return filter.exec( txt )[ 1 ];
 						}
 					} );
-          
-          var messages = [].concat(warnMessages).concat(errorMessages);
+
+					var messages = [].concat(warnMessages).concat(errorMessages);
 					messages = _.filter( messages );
 					messages.should.eql( [
-            "one.a.warn.1",
-            "one.b.warn.1",
-            "two.a.warn.1",
-            "two.b.warn.1",
-            "one.a.warn.2",
-            "one.b.warn.2",
-            "one.a.error.1",
-            "one.b.error.1",
-            "two.a.error.1",
-            "two.b.error.1",
-            "one.a.error.2",
-            "one.b.error.2"
+						"one.a.warn.1",
+						"one.b.warn.1",
+						"two.a.warn.1",
+						"two.b.warn.1",
+						"one.a.warn.2",
+						"one.b.warn.2",
+						"one.a.error.1",
+						"one.b.error.1",
+						"two.a.error.1",
+						"two.b.error.1",
+						"one.a.error.2",
+						"one.b.error.2"
 					] );
 
 				} );

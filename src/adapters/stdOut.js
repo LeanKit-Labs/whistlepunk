@@ -12,12 +12,12 @@ function configure( config, formatter ) {
 		error: "red"
 	}, config.theme );
 
-  var logType = {
-    info: "info",
-    warn: "warn",
-    debug: "log",
-    error: "error"
-  };
+	var logType = {
+		info: "info",
+		warn: "warn",
+		debug: "log",
+		error: "error"
+	};
 
 	colors.setTheme( theme );
 
