@@ -96,7 +96,9 @@
 		"when",
 		"_",
 		"sinon",
-		"getWhistlepunk"
+		"getWhistlepunk",
+		"stubConsoleMethods",
+		"restoreConsoleMethods"
 	],
 
 	// LEGACY
