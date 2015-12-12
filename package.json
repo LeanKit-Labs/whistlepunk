@@ -1,6 +1,6 @@
 {
   "name": "whistlepunk",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "homepage": "https://github.com/LeanKit-Labs/whistlepunk",
   "description": "Logging abstraction that signals any enabled adapters of a new log message.",
   "author": "LeanKit",
@@ -25,6 +25,15 @@
     {
       "name": "Brian Edgerton",
       "url": "https://github.com/brianedgerton"
+    },
+    {
+      "name": "Derick Bailey",
+      "url": "http://derickbailey.com",
+      "email": "derickbailey@gmail.com"
+    },
+    {
+      "name": "Michael Tuttle",
+      "url": "https://github.com/openam"
     }
   ],
   "keywords": [

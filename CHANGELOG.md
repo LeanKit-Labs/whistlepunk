@@ -1,5 +1,10 @@
 ## 0.3.x
 
+## 0.3.2
+ * Use "" as default namespace
+ * Use correct console calls for stdOut adapter
+ * Add alternate api to whistelpunk
+
 ## 0.3.1
  * Fix bug in loading adapters from relative paths
 
