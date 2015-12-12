@@ -1,5 +1,9 @@
 # Whistlepunk
 
+[![Version npm](https://img.shields.io/npm/v/whistlepunk.svg?style=flat)](https://www.npmjs.com/package/whistlepunk)
+[![npm Downloads](https://img.shields.io/npm/dm/whistlepunk.svg?style=flat)](https://www.npmjs.com/package/whistlepunk)
+[![Dependencies](https://img.shields.io/david/LeanKit-Labs/whistlepunk.svg?style=flat)](https://david-dm.org/LeanKit-Labs/whistlepunk)
+
 > *noun* - a lumberjack who operates the signal wire running to a donkey engine whistle.
 
 ## What Is It?
