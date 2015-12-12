@@ -1,5 +1,6 @@
 var _ = require( "lodash" );
-module.exports = function( postal, config, fount ) {
+
+function setup( postal, config, fount ) {
 	config = config || {};
 	var log = postal.channel( config.logChannel || "log" );
 	var resolver = postal.configuration.resolver.compare.bind( postal.configuration.resolver );
@@ -11,4 +12,7 @@ module.exports = function( postal, config, fount ) {
 	}
 
 	return loggerFactory;
-};
+}
+
+setup.log = require( "./log" )( setup );
+module.exports = setup;

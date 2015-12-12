@@ -59,7 +59,6 @@ function wireUp( adapterFsm, config, channel, adapter ) {
 			.subscribe( topic, handler )
 			.constraint( adapter.constraint || defaultConstraint( config ) );
 	} );
-
 	if ( adapter.subscriptions ) {
 		_.each( adapter.subscriptions, function( subscription ) {
 			subscription.unsubscribe();
