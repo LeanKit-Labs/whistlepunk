@@ -35,6 +35,51 @@ var logger = loggerFactory();
 logger.warn("Watch it, I'm warning you!");
 ```
 
+### Alternate API
+A common use case we've run into is that multiple modules need logging but a dependency on a shared loggerFactory instance gets cumbersome and introduces limitations in setup due to temporal coupling.
+
+Whistlepunk now provides a singleton log instance that you can provide configuration to even after log instances have been created. Any calls to these uninitialized logs will simply no-op until some configuration has been provided.
+
+This also supports use cases where you may want to change log configuration during the lifetime of the application.
+
+```javascript
+var whistlepunk = require("whistlepunk").log;
+
+var config =  {
+	adapters: {
+		stdOut: {
+			level: 5,
+			bailIfDebug: true, // disables stdOut if DEBUG=* is in play
+			timestamp: {
+				local: true, // defaults to UTC
+				format: "MMM-D-YYYY hh:mm:ss A" // ex: Jan 1, 2015 10:15:20 AM
+			},
+			topic: "#", // default topic
+		},
+		"debug": {
+			level: 5
+		}
+	}
+};
+
+var logger = whistlepunk( "my.topic" );
+logger.warn( "no configuration was provided, no one will see this" );
+whistlepunk( config );
+logger.info( "now that an adapter was added, this will show up" );
+
+// creating additional log instances that use different topics
+// is simple and doesn't require you to provide the configuration
+// nor do you need to carry around the same loggerFactory instance.
+var altLogger = whistlepunk( "off.topic" );
+altLogger.info( "that reminds me ..." );
+```
+
+Any other module can get access to the same log factory by using `require( "whistlepunk" ).log;` and not need to pass around shared references.
+
+The trade-off for these features is that you _can_ create a race condition in your setup where some log entries could no-op. Careful planning in how you initialize will avoid this problem.
+
+## Configuration
+
 ### Log Levels
 The log levels available are specified as integers (as in the above `level` value under each adapter's configuration). Specifying a log level includes each level up to the level specified. For example, specifying a log level of "3" (info), will include warn (2) and error (1) log messages as well.
 

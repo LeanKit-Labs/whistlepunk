@@ -5,6 +5,7 @@ global.when = require( "when" );
 chai.use( require( "sinon-chai" ) );
 chai.use( require( "chai-as-promised" ) );
 global.should = chai.should();
+global.expect = chai.expect;
 global._ = require( "lodash" );
 global.sinon = require( "sinon" );
 require( "sinon-as-promised" )( global.when.Promise );
@@ -24,22 +25,22 @@ global.getWhistlepunk = function( stubs ) {
 };
 
 var consoleMethods = {
-  log: console.log,
-  info: console.info,
-  warn: console.warn,
-  error: console.error
+	log: console.log,
+	info: console.info,
+	warn: console.warn,
+	error: console.error
 };
 
 global.stubConsoleMethods = function(){
-  console.log = function(){};
-  console.info = function(){};
-  console.warn = function(){};
-  console.error = function(){};
+	console.log = function(){};
+	console.info = function(){};
+	console.warn = function(){};
+	console.error = function(){};
 };
 
 global.restoreConsoleMethods = function(){
-  console.log = consoleMethods.log;
-  console.info = consoleMethods.info;
-  console.warn = consoleMethods.warn;
-  console.error = consoleMethods.error;
+	console.log = consoleMethods.log;
+	console.info = consoleMethods.info;
+	console.warn = consoleMethods.warn;
+	console.error = consoleMethods.error;
 };
