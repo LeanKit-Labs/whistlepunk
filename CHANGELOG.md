@@ -1,5 +1,8 @@
 ## 0.3.x
 
+## 0.3.3
+ * Move postal from devDependencies to dependencies
+
 ## 0.3.2
  * Use "" as default namespace
  * Use correct console calls for stdOut adapter
