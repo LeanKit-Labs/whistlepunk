@@ -50,7 +50,7 @@
   "dependencies": {
     "colors": "1.0.3",
     "debug": "2.2.0",
-    "lodash": "3.x",
+    "lodash": "3.10.x",
     "machina": "1.x",
     "moment": "2.10.2",
     "when": "3.x",
