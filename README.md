@@ -2,7 +2,7 @@
 
 [![Version npm](https://img.shields.io/npm/v/payapi-whistlepunk.svg?style=flat)](https://www.npmjs.com/package/payapi-whistlepunk)
 [![npm Downloads](https://img.shields.io/npm/dm/payapi-whistlepunk.svg?style=flat)](https://www.npmjs.com/package/payapi-whistlepunk)
-[![Dependencies](https://img.shields.io/david/payapi/whistlepunk.svg?style=flat)](https://david-dm.org/payapi/whistlepunk)
+[![Dependencies](https://david-dm.org/payapi/whistlepunk/status.svg?style=flat)](https://david-dm.org/payapi/whistlepunk)
 
 > *noun* - a lumberjack who operates the signal wire running to a donkey engine whistle.
 
