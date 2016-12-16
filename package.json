@@ -1,39 +1,21 @@
 {
-  "name": "whistlepunk",
+  "name": "payapi-whistlepunk",
   "version": "0.3.4",
-  "homepage": "https://github.com/LeanKit-Labs/whistlepunk",
-  "description": "Logging abstraction that signals any enabled adapters of a new log message.",
-  "author": "LeanKit",
+  "homepage": "https://github.com/payapi/whistlepunk",
+  "description": "Logging abstraction that signals any enabled adapters of a new log message. Forked from https://github.com/LeanKit-Labs/whistlepunk for making security upgrades to dependencies. Please use the original one once they have merged the PR's and created a release.",
+  "author": "payapi.io",
   "repository": {
     "type": "git",
-    "url": "git://github.com/LeanKit-Labs/whistlepunk.git"
+    "url": "git://github.com/payapi/whistlepunk.git"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
   "contributors": [
     {
-      "name": "Jim Cowart",
-      "email": "jim@ifandelse.com",
-      "url": "http://ifandelse.com"
-    },
-    {
-      "name": "Alex Robson",
-      "email": "WhyNotJustComment@OnMyBlog.com",
-      "url": "http://nerdventure.io/"
-    },
-    {
-      "name": "Brian Edgerton",
-      "url": "https://github.com/brianedgerton"
-    },
-    {
-      "name": "Derick Bailey",
-      "url": "http://derickbailey.com",
-      "email": "derickbailey@gmail.com"
-    },
-    {
-      "name": "Michael Tuttle",
-      "url": "https://github.com/openam"
+      "name": "Marko Haapala",
+      "email": "marko@payapi.io",
+      "url": "https://es.linkedin.com/in/markohaapala"
     }
   ],
   "keywords": [
