@@ -23,7 +23,7 @@ function configure( config ) {
 }
 
 function createLog( topic ) {
-	if ( !_.contains( topics, topic ) && !logs[ topic ] ) {
+	if ( !_.includes( topics, topic ) && !logs[ topic ] ) {
 		const log = logger( topic );
 		topics.push( topic );
 		logs[ topic ] = log;
@@ -42,7 +42,7 @@ function init( config, ns ) {
 
 function wrap( topic ) {
 	const log = logs[ topic ];
-	const fns = _.functions( log );
+	const fns = _.functionsIn( log );
 	return _.reduce( fns, function( wrapper, fn ) {
 		wrapper[ fn ] = log[ fn ].bind( log );
 		return wrapper;

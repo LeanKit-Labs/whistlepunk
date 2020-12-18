@@ -55,16 +55,16 @@
   },
   "dependencies": {
     "colors": "1.0.3",
-    "debug": "2.2.0",
-    "lodash": "3.x",
-    "machina": "1.x",
-    "moment": "2.10.2",
+    "debug": "2.4.5",
+    "lodash": "4.17.20",
+    "machina": "^4.0.2",
+    "moment": "^2.29.1",
     "postal": "1.x"
   },
   "devDependencies": {
     "chai": "^2.1.0",
-    "mocha": "~2.2.4",
     "eslint-config-leankit": "^5.2.0",
+    "mocha": "^8.2.1",
     "nyc": "^15.1.0",
     "open": "^7.3.0",
     "proxyquire": "^1.4.0",

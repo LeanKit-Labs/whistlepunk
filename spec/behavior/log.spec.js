@@ -11,6 +11,7 @@ describe( "Alternate API", function() {
 
 		it( "should not throw exceptions", function() {
 			should.not.throw( function() {
+				
 				log.debug( "one" );
 			} );
 			should.not.throw( function() {
