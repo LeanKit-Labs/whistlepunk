@@ -1,1 +1,3 @@
-module.exports = require( './src/log' );
+"use strict";
+
+module.exports = require( "./src/log" );

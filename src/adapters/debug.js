@@ -1,8 +1,10 @@
-var debug = require( "debug" );
-var namespaces = {};
-var debugAdapter = {
-	onLog: function( data ) {
-		var debugNs = namespaces[ data.namespace ];
+"use strict";
+
+const debug = require( "debug" );
+const namespaces = {};
+const debugAdapter = {
+	onLog( data ) {
+		let debugNs = namespaces[ data.namespace ];
 		if ( !debugNs ) {
 			debugNs = namespaces[ data.namespace ] = debug( data.namespace );
 		}
@@ -10,6 +12,6 @@ var debugAdapter = {
 	}
 };
 
-module.exports = function( config ) {
+module.exports = function( _config ) {
 	return debugAdapter;
 };

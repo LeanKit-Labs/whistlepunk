@@ -43,35 +43,32 @@
     "debug"
   ],
   "scripts": {
-    "test": "gulp test",
-    "coverage": "gulp coverage",
-    "show-coverage": "open ./coverage/lcov-report/index.html"
+    "lint": "eslint --fix ./",
+    "pretest": "npm run lint",
+    "test:only": "NODE_ENV=test mocha --exit -R spec 'spec/**/*.spec.js'",
+    "test:ci": "NODE_ENV=test mocha --exit -R spec 'spec/behavior/**/*.spec.js'",
+    "test": "npm run cover",
+    "cover": "nyc -r text-summary -r html -- npm run test:only",
+    "cover:ci": "nyc -r text-summary -r html -- npm run test:ci",
+    "cover:show": "open \"file://$PWD/coverage/index.html\""
   },
   "dependencies": {
     "colors": "1.0.3",
-    "debug": "2.2.0",
-    "lodash": "3.x",
-    "machina": "1.x",
-    "moment": "2.10.2",
-    "when": "3.x",
+    "debug": "2.4.5",
+    "lodash": "4.17.20",
+    "machina": "^4.0.2",
+    "moment": "^2.29.1",
     "postal": "1.x"
   },
   "devDependencies": {
     "chai": "^2.1.0",
-    "chai-as-promised": "^4.2.0",
-    "gulp": "^3.8.11",
-    "gulp-istanbul": "^0.8.1",
-    "gulp-jshint": "^1.9.2",
-    "gulp-mocha": "^2.0.0",
-    "gulp-spawn-mocha": "^2.0.1",
-    "gulp-watch": "4.2.4",
-    "istanbul": "~0.3.2",
-    "jshint-stylish": "^1.0.0",
-    "mocha": "~2.2.4",
-    "open": "0.0.5",
+    "dirty-chai": "^2.0.1",
+    "eslint-config-leankit": "^6.0.0",
+    "mocha": "^8.2.1",
+    "nyc": "^15.1.0",
+    "open": "^7.3.0",
     "proxyquire": "^1.4.0",
-    "sinon": "^1.12.2",
-    "sinon-as-promised": "^3.0.0",
+    "sinon": "^2.0.0",
     "sinon-chai": "^2.7.0"
   },
   "engines": {
@@ -87,5 +84,17 @@
   "files": [
     "src",
     "LICENSE"
-  ]
+  ],
+  "nyc": {
+    "exclude": [
+      "config.local.*",
+      "coverage",
+      "configs",
+      "spec",
+      ".eslintrc.js"
+    ],
+    "sourceMap": false,
+    "instrument": true,
+    "all": true
+  }
 }
