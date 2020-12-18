@@ -1,13 +1,12 @@
 "use strict";
 
-const postal = require( "postal" );
 let adapter;
 
 function configure( _ ) {
 	adapter = adapter || {
 
 		init( ) {
-			return new Promise( function( resolve, reject ) {
+			return new Promise( function( resolve ) {
 				setTimeout( function() {
 					resolve();
 				}, 200 );

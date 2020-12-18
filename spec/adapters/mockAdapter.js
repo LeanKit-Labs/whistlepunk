@@ -1,6 +1,5 @@
-'use strict';
+"use strict";
 
-const _ = require( "lodash" );
 const namespaces = {};
 const adapter = {
 	namespaces,
@@ -28,7 +27,7 @@ const adapter = {
 	}
 };
 
-_.bindAll( adapter, [ 'init','reset','onLog'] );
+_.bindAll( adapter, [ "init", "reset", "onLog" ] );
 
 module.exports = function mockLogAdapter( config ) {
 	if ( _.isObject( config ) ) {

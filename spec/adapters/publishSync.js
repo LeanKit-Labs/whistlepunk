@@ -1,8 +1,6 @@
 "use strict";
 
 const colors = require( "colors" );
-const _ = require( "lodash" );
-const postal = require( "postal" );
 let adapter;
 
 function configure( config ) {
@@ -19,8 +17,6 @@ function configure( config ) {
 
 	adapter = adapter || {
 		onLog( data ) {
-			let msg;
-
 			postal.publish( {
 				channel: "wp-test",
 				topic: "publishSync",

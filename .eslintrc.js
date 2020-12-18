@@ -8,7 +8,6 @@ module.exports = {
 		"global-require": 0,
 		"max-statements": [ "error", { max: 35 } ]
 	},
-	ignorePatterns: [ "spec/*" ],
 	parserOptions: {
 		ecmaVersion: 2017
 	}

@@ -1,9 +1,9 @@
-var path = require( "path" );
-var wp = require( "../../src/index.js" );
-var adapterPath = path.resolve( `${ __dirname }/../adapters` );
-var publishAsync = `${ adapterPath }/publishAsync.js`;
-var publishSync = `${ adapterPath }/publishSync.js`;
-var config = {
+const path = require( "path" );
+const wp = require( "../../src/index.js" );
+const adapterPath = path.resolve( `${ __dirname }/../adapters` );
+const publishAsync = `${ adapterPath }/publishAsync.js`;
+const publishSync = `${ adapterPath }/publishSync.js`;
+const config = {
 	adapters: {}
 };
 

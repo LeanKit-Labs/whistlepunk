@@ -1,6 +1,6 @@
 require( "../helpers/node-setup" );
-var logFn = require( "../../src/index" ).log;
-var mockAdapter = require( "../adapters/mockAdapter" )();
+const logFn = require( "../../src/index" ).log;
+const mockAdapter = require( "../adapters/mockAdapter" )();
 
 describe( "Alternate API", function() {
 	describe( "before initialization", function() {
@@ -11,7 +11,6 @@ describe( "Alternate API", function() {
 
 		it( "should not throw exceptions", function() {
 			should.not.throw( function() {
-				
 				log.debug( "one" );
 			} );
 			should.not.throw( function() {
@@ -45,7 +44,7 @@ describe( "Alternate API", function() {
 		} );
 
 		it( "should not send log entries to other adapters", function() {
-			expect( mockAdapter.test ).to.be.undefined;
+			expect( mockAdapter.test ).to.be.undefined();
 		} );
 
 		after( function() {

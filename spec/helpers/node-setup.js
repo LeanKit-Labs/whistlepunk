@@ -6,6 +6,7 @@ const chai = require( "chai" );
 global.proxyquire = require( "proxyquire" ).noPreserveCache();
 global.postal = require( "postal" );
 chai.use( require( "sinon-chai" ) );
+chai.use( require( "dirty-chai" ) );
 global.should = chai.should();
 global.expect = chai.expect;
 global._ = require( "lodash" );

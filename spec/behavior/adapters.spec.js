@@ -4,7 +4,7 @@ describe( "Built-in Adapters", function() {
 	describe( "when using the stdOut adapter", function() {
 		describe( "when debug is not enabled", function() {
 			describe( "with default timestamp", function() {
-				let logFactory, logger, consoleWarn, msg, noMsg, wp, timestamp, realLog;
+				let logFactory, logger, consoleWarn, msg, noMsg, wp, timestamp;
 				before( function() {
 					msg = "Testing stdOut";
 					timestamp = /[0-9]{4}[-][0-9]{2}[-][0-9]{2}T[0-9]{2}[:][0-9]{2}[:][0-9]{2}[.][0-9]{3}Z/;
@@ -44,7 +44,7 @@ describe( "Built-in Adapters", function() {
 						}
 					}
 
-					pass.should.be.ok;
+					pass.should.be.ok();
 				} );
 
 				it( "should not log any statements above its level", function() {
@@ -60,12 +60,12 @@ describe( "Built-in Adapters", function() {
 						}
 					}
 
-					pass.should.be.ok;
+					pass.should.be.ok();
 				} );
 			} );
 
 			describe( "with custom timestamp", function() {
-				let logFactory, logger, consoleWarn, msg, noMsg, wp, timestamp, realLog;
+				let logFactory, logger, consoleWarn, msg, noMsg, wp, timestamp;
 				before( function() {
 					msg = "Testing stdOut";
 					timestamp = /[0-9]{1,2}[:][0-9]{2}[ ](AM|PM)[ ][-][ ][a-zA-Z]{3}[ ][0-9]{1,2}[a-z]{2,3}[,][ ][0-9]{4}[-+][0]{4}/;
@@ -108,7 +108,7 @@ describe( "Built-in Adapters", function() {
 						}
 					}
 
-					pass.should.be.ok;
+					pass.should.be.ok();
 				} );
 
 				it( "should not log any statements above its level", function() {
@@ -124,12 +124,12 @@ describe( "Built-in Adapters", function() {
 						}
 					}
 
-					pass.should.be.ok;
+					pass.should.be.ok();
 				} );
 			} );
 
 			describe( "with custom timestamp", function() {
-				let logFactory, logger, consoleWarn, msg, noMsg, wp, timestamp, realLog;
+				let logFactory, logger, consoleWarn, msg, noMsg, wp, timestamp;
 				before( function() {
 					msg = "Testing stdOut";
 					timestamp = /[0-9]{1,2}[:][0-9]{2}[ ](AM|PM)[ ][-][ ][a-zA-Z]{3}[ ][0-9]{1,2}[a-z]{2,3}[,][ ][0-9]{4}[-+][0-9][1-9][0-9]{2}/;
@@ -173,7 +173,7 @@ describe( "Built-in Adapters", function() {
 						}
 					}
 
-					pass.should.be.ok;
+					pass.should.be.ok();
 				} );
 
 				it( "should not log any statements above its level", function() {
@@ -189,16 +189,20 @@ describe( "Built-in Adapters", function() {
 						}
 					}
 
-					pass.should.be.ok;
+					pass.should.be.ok();
 				} );
 			} );
 
 			describe( "with multiple topics and loggers", function() {
-				let logFactory,                         logger,                         consoleLog,                         consoleInfo,                         consoleError,                         consoleWarn,                         msg,                         noMsg,                         wp,                         timestamp,
-				                         filter = /(?:\S+\s){2}([a-zA-Z0-9.]+)/;
-				                         let realLog;
+				let logFactory,
+					consoleLog,
+					consoleInfo,
+					consoleError,
+					consoleWarn,
+					wp;
+				const filter = /(?:\S+\s){2}([a-zA-Z0-9.]+)/;
+
 				before( function() {
-					msg = "Testing stdOut";
 					wp = getWhistlepunk();
 					stubConsoleMethods();
 					consoleLog = sinon.spy( console, "log" );
@@ -360,7 +364,7 @@ describe( "Built-in Adapters", function() {
 					}
 				}
 
-				pass.should.be.ok;
+				pass.should.be.ok();
 			} );
 		} );
 	} );
@@ -376,7 +380,7 @@ describe( "Built-in Adapters", function() {
 			};
 
 			fount = {
-				resolve( name ) {
+				resolve() {
 					return Promise.resolve( host );
 				}
 			};
@@ -415,9 +419,8 @@ describe( "Built-in Adapters", function() {
 	} );
 
 	describe( "when using the debug adapter", function() {
-		let logFactory, logger, errMsg, infoMsg, wp, req, messages, debug, DEBUG;
+		let logFactory, logger, errMsg, infoMsg, wp, debug, DEBUG;
 		before( function() {
-			messages = [];
 			errMsg = "Testing autohost err";
 			infoMsg = "Testing autohost info";
 			DEBUG = process.env.DEBUG;
