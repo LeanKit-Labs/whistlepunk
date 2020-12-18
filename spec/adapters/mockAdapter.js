@@ -1,8 +1,10 @@
-var _ = require( 'lodash' );
-var namespaces = {};
-var adapter = {
-	namespaces: namespaces,
-	init: function( ns ) {
+"use strict";
+
+const _ = require( "lodash" );
+const namespaces = {};
+const adapter = {
+	namespaces,
+	init( ns ) {
 		if ( !namespaces[ ns ] ) {
 			namespaces[ ns ] = { entries: [] };
 		}
@@ -14,11 +16,11 @@ var adapter = {
 		};
 		return namespaces[ ns ];
 	},
-	reset: function( ns ) {
+	reset( ns ) {
 		this.init( ns );
 	},
-	onLog: function( data ) {
-		var ns = namespaces[ data.namespace ];
+	onLog( data ) {
+		let ns = namespaces[ data.namespace ];
 		if ( !ns ) {
 			ns = this.init( data.namespace );
 		}
@@ -32,10 +34,9 @@ module.exports = function mockLogAdapter( config ) {
 	if ( _.isObject( config ) ) {
 		return adapter;
 	} else if ( config ) {
-		var ns = _.isArray( config ) ? config : [ config ];
+		const ns = _.isArray( config ) ? config : [ config ];
 		ns.forEach( adapter.init.bind( adapter ) );
 		return adapter;
-	} else {
-		return namespaces;
 	}
+	return namespaces;
 };

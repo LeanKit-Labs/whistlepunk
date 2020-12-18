@@ -1,12 +1,13 @@
-var _ = require( "lodash" );
-var postal = require( "postal" );
-var logger;
-var logFn;
-var logs = {};
-var topics = [];
+"use strict";
+
+const _ = require( "lodash" );
+const postal = require( "postal" );
+let logger,	logFn;
+let logs = {};
+let topics = [];
 
 function configure( config ) {
-	var envDebug = !!process.env.DEBUG;
+	const envDebug = !!process.env.DEBUG;
 	if ( envDebug ) {
 		logger = logFn( postal, { adapters: { debug: { level: 5 } } } );
 	} else {
@@ -16,14 +17,14 @@ function configure( config ) {
 		log.reset();
 	} );
 	logs = {};
-	var topicList = topics.slice( 0 );
+	const topicList = topics.slice( 0 );
 	topics = [];
 	_.each( topicList, createLog );
 }
 
 function createLog( topic ) {
 	if ( !_.contains( topics, topic ) && !logs[ topic ] ) {
-		var log = logger( topic );
+		const log = logger( topic );
 		topics.push( topic );
 		logs[ topic ] = log;
 	}
@@ -40,8 +41,8 @@ function init( config, ns ) {
 }
 
 function wrap( topic ) {
-	var log = logs[ topic ];
-	var fns = _.functions( log );
+	const log = logs[ topic ];
+	const fns = _.functions( log );
 	return _.reduce( fns, function( wrapper, fn ) {
 		wrapper[ fn ] = log[ fn ].bind( log );
 		return wrapper;

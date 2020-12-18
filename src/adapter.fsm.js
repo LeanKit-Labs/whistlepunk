@@ -1,14 +1,16 @@
-var machina = require( "machina" );
+"use strict";
 
-var logAdapter = new machina.BehavioralFsm( {
+const machina = require( "machina" );
+
+const logAdapter = new machina.BehavioralFsm( {
 
 	initialState: "initializing",
 
-	onLog: function( client, data ) {
+	onLog( client, data ) {
 		this.handle( client, "onLog", data );
 	},
 
-	register: function( client, init ) {
+	register( client, init ) {
 		init.then( function() {
 			this.transition( client, "ready" );
 		}.bind( this ) );
@@ -16,12 +18,12 @@ var logAdapter = new machina.BehavioralFsm( {
 
 	states: {
 		initializing: {
-			onLog: function( client ) {
+			onLog( client ) {
 				this.deferUntilTransition( client, "ready" );
 			}
 		},
 		ready: {
-			onLog: function( client, data ) {
+			onLog( client, data ) {
 				client.onLog( data );
 			}
 		}

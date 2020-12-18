@@ -4,7 +4,7 @@ var mockAdapter = require( "../adapters/mockAdapter" )();
 
 describe( "Alternate API", function() {
 	describe( "before initialization", function() {
-		var log;
+		let log;
 		before( function() {
 			log = logFn( "test" );
 		} );
@@ -26,8 +26,8 @@ describe( "Alternate API", function() {
 	} );
 
 	describe( "with debug env set", function() {
-		var original = process.env.DEBUG;
-		var log;
+		const original = process.env.DEBUG;
+		let log;
 		before( function() {
 			process.env.DEBUG = "test";
 			log = logFn( {
@@ -53,8 +53,8 @@ describe( "Alternate API", function() {
 	} );
 
 	describe( "without debug", function() {
-		var original = process.env.DEBUG;
-		var log;
+		const original = process.env.DEBUG;
+		let log;
 		before( function() {
 			delete process.env.DEBUG;
 			log = logFn( {

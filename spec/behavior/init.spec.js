@@ -1,31 +1,30 @@
 var path = require( "path" );
 var wp = require( "../../src/index.js" );
-var adapterPath = path.resolve( __dirname + "/../adapters" );
-var publishAsync = adapterPath + "/publishAsync.js";
-var publishSync = adapterPath + "/publishSync.js";
+var adapterPath = path.resolve( `${ __dirname }/../adapters` );
+var publishAsync = `${ adapterPath }/publishAsync.js`;
+var publishSync = `${ adapterPath }/publishSync.js`;
 var config = {
-	"adapters": {}
+	adapters: {}
 };
 
 config.adapters[ publishSync ] = {
-	"level": 5
+	level: 5
 };
 
 config.adapters[ publishAsync ] = {
-	"level": 5
+	level: 5
 };
 
 describe( "Whistlepunk Synchronous Initialization", function() {
-
 	describe( "when initializing whistlepunk", function() {
-		var logFactory, log, syncLogReceived, asyncLogReceived, msg;
+		let logFactory, log, syncLogReceived, asyncLogReceived, msg;
 
 		before( function() {
 			msg = "You been whistlepunk'd";
 			postal.subscribe( {
 				channel: "wp-test",
 				topic: "publishSync",
-				callback: function( data ) {
+				callback( data ) {
 					syncLogReceived = data;
 				}
 			} );
@@ -33,7 +32,7 @@ describe( "Whistlepunk Synchronous Initialization", function() {
 			postal.subscribe( {
 				channel: "wp-test",
 				topic: "publishAsync",
-				callback: function( data ) {
+				callback( data ) {
 					asyncLogReceived = data;
 				}
 			} );

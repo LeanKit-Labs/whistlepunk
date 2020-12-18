@@ -1,12 +1,11 @@
 var ctorFactory = require( "../../src/Logger.js" );
 
 describe( "Logger.js", function() {
-
-	var logger, channelStub, adapterStub;
+	let logger, channelStub, adapterStub;
 
 	beforeEach( function() {
 		channelStub = {
-			publish: sinon.stub(),
+			publish: sinon.stub()
 		};
 		adapterStub = {
 			subscriptions: [
@@ -15,9 +14,9 @@ describe( "Logger.js", function() {
 				}
 			]
 		};
-		logger = new (ctorFactory( channelStub, function() {
+		logger = new( ctorFactory( channelStub, function() {
 			return true;
-		} ))( "test", [ adapterStub ] );
+		} ) )( "test", [ adapterStub ] );
 	} );
 
 	describe( "when calling reset", function() {

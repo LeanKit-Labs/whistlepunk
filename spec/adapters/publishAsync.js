@@ -1,23 +1,20 @@
-var colors = require( "colors" );
-var moment = require( "moment" );
-var _ = require( "lodash" );
-var when = require( "when" );
-var postal = require( "postal" );
-var adapter;
+"use strict";
 
-function configure( config ) {
+const postal = require( "postal" );
+let adapter;
 
+function configure( _ ) {
 	adapter = adapter || {
 
-		init: function( config ) {
-			return when.promise( function( resolve, reject ) {
+		init( ) {
+			return new Promise( function( resolve, reject ) {
 				setTimeout( function() {
 					resolve();
 				}, 200 );
 			} );
 		},
 
-		onLog: function( data ) {
+		onLog( data ) {
 			postal.publish( {
 				channel: "wp-test",
 				topic: "publishAsync",

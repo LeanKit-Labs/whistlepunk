@@ -1,11 +1,10 @@
+"use strict";
+
 describe( "Built-in Adapters", function() {
-
 	describe( "when using the stdOut adapter", function() {
-
 		describe( "when debug is not enabled", function() {
 			describe( "with default timestamp", function() {
-
-				var logFactory, logger, consoleWarn, msg, noMsg, wp, timestamp, realLog;
+				let logFactory, logger, consoleWarn, msg, noMsg, wp, timestamp, realLog;
 				before( function() {
 					msg = "Testing stdOut";
 					timestamp = /[0-9]{4}[-][0-9]{2}[-][0-9]{2}T[0-9]{2}[:][0-9]{2}[:][0-9]{2}[.][0-9]{3}Z/;
@@ -33,12 +32,12 @@ describe( "Built-in Adapters", function() {
 				} );
 
 				it( "should log the message to the console (with ISO8601 in GMT)", function() {
-					var count = consoleWarn.callCount;
-					var regex = new RegExp( msg );
-					var pass = false;
+					const count = consoleWarn.callCount;
+					const regex = new RegExp( msg );
+					let pass = false;
 
-					var arg;
-					for (var i = 0; i < count; i++) {
+					let arg;
+					for ( let i = 0; i < count; i++ ) {
 						arg = consoleWarn.getCall( i ).args[ 0 ];
 						if ( regex.test( arg ) && timestamp.test( arg ) ) {
 							pass = true;
@@ -49,12 +48,12 @@ describe( "Built-in Adapters", function() {
 				} );
 
 				it( "should not log any statements above its level", function() {
-					var count = consoleWarn.callCount;
-					var regex = new RegExp( noMsg );
-					var pass = true;
+					const count = consoleWarn.callCount;
+					const regex = new RegExp( noMsg );
+					let pass = true;
 
-					var arg;
-					for (var i = 0; i < count; i++) {
+					let arg;
+					for ( let i = 0; i < count; i++ ) {
 						arg = consoleWarn.getCall( i ).args[ 0 ];
 						if ( regex.test( arg ) ) {
 							pass = false;
@@ -66,8 +65,7 @@ describe( "Built-in Adapters", function() {
 			} );
 
 			describe( "with custom timestamp", function() {
-
-				var logFactory, logger, consoleWarn, msg, noMsg, wp, timestamp, realLog;
+				let logFactory, logger, consoleWarn, msg, noMsg, wp, timestamp, realLog;
 				before( function() {
 					msg = "Testing stdOut";
 					timestamp = /[0-9]{1,2}[:][0-9]{2}[ ](AM|PM)[ ][-][ ][a-zA-Z]{3}[ ][0-9]{1,2}[a-z]{2,3}[,][ ][0-9]{4}[-+][0]{4}/;
@@ -98,12 +96,12 @@ describe( "Built-in Adapters", function() {
 				} );
 
 				it( "should log the message to the console (with custom in GMT)", function() {
-					var count = consoleWarn.callCount;
-					var regex = new RegExp( msg );
-					var pass = false;
+					const count = consoleWarn.callCount;
+					const regex = new RegExp( msg );
+					let pass = false;
 
-					var arg;
-					for (var i = 0; i < count; i++) {
+					let arg;
+					for ( let i = 0; i < count; i++ ) {
 						arg = consoleWarn.getCall( i ).args[ 0 ];
 						if ( regex.test( arg ) && timestamp.test( arg ) ) {
 							pass = true;
@@ -114,12 +112,12 @@ describe( "Built-in Adapters", function() {
 				} );
 
 				it( "should not log any statements above its level", function() {
-					var count = consoleWarn.callCount;
-					var regex = new RegExp( noMsg );
-					var pass = true;
+					const count = consoleWarn.callCount;
+					const regex = new RegExp( noMsg );
+					let pass = true;
 
-					var arg;
-					for (var i = 0; i < count; i++) {
+					let arg;
+					for ( let i = 0; i < count; i++ ) {
 						arg = consoleWarn.getCall( i ).args[ 0 ];
 						if ( regex.test( arg ) ) {
 							pass = false;
@@ -131,8 +129,7 @@ describe( "Built-in Adapters", function() {
 			} );
 
 			describe( "with custom timestamp", function() {
-
-				var logFactory, logger, consoleWarn, msg, noMsg, wp, timestamp, realLog;
+				let logFactory, logger, consoleWarn, msg, noMsg, wp, timestamp, realLog;
 				before( function() {
 					msg = "Testing stdOut";
 					timestamp = /[0-9]{1,2}[:][0-9]{2}[ ](AM|PM)[ ][-][ ][a-zA-Z]{3}[ ][0-9]{1,2}[a-z]{2,3}[,][ ][0-9]{4}[-+][0-9][1-9][0-9]{2}/;
@@ -164,12 +161,12 @@ describe( "Built-in Adapters", function() {
 				} );
 
 				it( "should log the message to the console (with custom in GMT)", function() {
-					var count = consoleWarn.callCount;
-					var regex = new RegExp( msg );
-					var pass = false;
+					const count = consoleWarn.callCount;
+					const regex = new RegExp( msg );
+					let pass = false;
 
-					var arg;
-					for (var i = 0; i < count; i++) {
+					let arg;
+					for ( let i = 0; i < count; i++ ) {
 						arg = consoleWarn.getCall( i ).args[ 0 ];
 						if ( regex.test( arg ) && timestamp.test( arg ) ) {
 							pass = true;
@@ -180,12 +177,12 @@ describe( "Built-in Adapters", function() {
 				} );
 
 				it( "should not log any statements above its level", function() {
-					var count = consoleWarn.callCount;
-					var regex = new RegExp( noMsg );
-					var pass = true;
+					const count = consoleWarn.callCount;
+					const regex = new RegExp( noMsg );
+					let pass = true;
 
-					var arg;
-					for (var i = 0; i < count; i++) {
+					let arg;
+					for ( let i = 0; i < count; i++ ) {
 						arg = consoleWarn.getCall( i ).args[ 0 ];
 						if ( regex.test( arg ) ) {
 							pass = false;
@@ -197,10 +194,9 @@ describe( "Built-in Adapters", function() {
 			} );
 
 			describe( "with multiple topics and loggers", function() {
-
-				var logFactory, logger, consoleLog, consoleInfo, consoleError, consoleWarn, msg, noMsg, wp, timestamp;
-				var filter = /(?:\S+\s){2}([a-zA-Z0-9.]+)/;
-				var realLog;
+				let logFactory,                         logger,                         consoleLog,                         consoleInfo,                         consoleError,                         consoleWarn,                         msg,                         noMsg,                         wp,                         timestamp,
+				                         filter = /(?:\S+\s){2}([a-zA-Z0-9.]+)/;
+				                         let realLog;
 				before( function() {
 					msg = "Testing stdOut";
 					wp = getWhistlepunk();
@@ -217,11 +213,11 @@ describe( "Built-in Adapters", function() {
 							}
 						}
 					} );
-					var logger1a = logFactory( "one.a.test" );
-					var logger1b = logFactory( "one.b.test" );
-					var logger2a = logFactory( "two.a.test" );
-					var logger2b = logFactory( "two.b.test" );
-					var ignored = logFactory( "three" );
+					const logger1a = logFactory( "one.a.test" );
+					const logger1b = logFactory( "one.b.test" );
+					const logger2a = logFactory( "two.a.test" );
+					const logger2b = logFactory( "two.b.test" );
+					const ignored = logFactory( "three" );
 
 					// log entries that should show up
 					logger1a.error( "one.a.error.1" );
@@ -290,20 +286,20 @@ describe( "Built-in Adapters", function() {
 				} );
 
 				it( "should log the correct messages", function() {
-					var warnMessages = _.map( _.range( 0, consoleWarn.callCount ), function( index ) {
-						var txt = consoleWarn.getCall( index ).args[ 0 ];
+					const warnMessages = _.map( _.range( 0, consoleWarn.callCount ), function( index ) {
+						const txt = consoleWarn.getCall( index ).args[ 0 ];
 						if ( filter.test( txt ) ) {
 							return filter.exec( txt )[ 1 ];
 						}
 					} );
-					var errorMessages = _.map( _.range( 0, consoleError.callCount ), function( index ) {
-						var txt = consoleError.getCall( index ).args[ 0 ];
+					const errorMessages = _.map( _.range( 0, consoleError.callCount ), function( index ) {
+						const txt = consoleError.getCall( index ).args[ 0 ];
 						if ( filter.test( txt ) ) {
 							return filter.exec( txt )[ 1 ];
 						}
 					} );
 
-					var messages = [].concat(warnMessages).concat(errorMessages);
+					let messages = [].concat( warnMessages ).concat( errorMessages );
 					messages = _.filter( messages );
 					messages.should.eql( [
 						"one.a.warn.1",
@@ -319,13 +315,12 @@ describe( "Built-in Adapters", function() {
 						"one.a.error.2",
 						"one.b.error.2"
 					] );
-
 				} );
 			} );
 		} );
 
 		describe( "when debug is enabled", function() {
-			var cleanWp, logFactory, logger, consoleLog, noMsg, DEBUG;
+			let cleanWp, logFactory, logger, consoleLog, noMsg, DEBUG;
 			before( function() {
 				noMsg = "Shouldn't show up";
 				DEBUG = process.env.DEBUG;
@@ -353,12 +348,12 @@ describe( "Built-in Adapters", function() {
 			} );
 
 			it( "should not log any statements", function() {
-				var count = consoleLog.callCount;
-				var regex = new RegExp( noMsg );
-				var pass = true;
+				const count = consoleLog.callCount;
+				const regex = new RegExp( noMsg );
+				let pass = true;
 
-				var arg;
-				for (var i = 0; i < count; i++) {
+				let arg;
+				for ( let i = 0; i < count; i++ ) {
 					arg = consoleLog.getCall( i ).args[ 0 ];
 					if ( regex.test( arg ) ) {
 						pass = false;
@@ -371,7 +366,7 @@ describe( "Built-in Adapters", function() {
 	} );
 
 	describe( "when using the autohost adapter", function() {
-		var logFactory, logger, errMsg, infoMsg, wp, fount, host;
+		let logFactory, logger, errMsg, infoMsg, wp, fount, host;
 
 		before( function() {
 			errMsg = "Testing autohost err";
@@ -381,8 +376,8 @@ describe( "Built-in Adapters", function() {
 			};
 
 			fount = {
-				resolve: function( name ) {
-					return when( host );
+				resolve( name ) {
+					return Promise.resolve( host );
 				}
 			};
 			wp = getWhistlepunk();
@@ -406,11 +401,11 @@ describe( "Built-in Adapters", function() {
 		it( "should forward messages to autohost's clients", function( done ) {
 			process.nextTick( function() {
 				host.notifyClients.callCount.should.equal( 2 );
-				var args = host.notifyClients.getCall( 0 ).args;
+				const args = host.notifyClients.getCall( 0 ).args;
 				args[ 0 ].should.equal( "error" );
 				args[ 1 ].msg.should.equal( errMsg );
 
-				var args2 = host.notifyClients.getCall( 1 ).args;
+				const args2 = host.notifyClients.getCall( 1 ).args;
 				args2[ 0 ].should.equal( "info" );
 				args2[ 1 ].msg.should.equal( infoMsg );
 
@@ -420,7 +415,7 @@ describe( "Built-in Adapters", function() {
 	} );
 
 	describe( "when using the debug adapter", function() {
-		var logFactory, logger, errMsg, infoMsg, wp, req, messages, debug, DEBUG;
+		let logFactory, logger, errMsg, infoMsg, wp, req, messages, debug, DEBUG;
 		before( function() {
 			messages = [];
 			errMsg = "Testing autohost err";
