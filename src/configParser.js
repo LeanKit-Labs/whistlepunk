@@ -30,13 +30,10 @@ function timeFormatter( config, data ) {
 		return data.utc.format( time.format || "YYYY-MM-DDTHH:mm:ss.SSSZ" );
 	}
 	return data.timestamp;
-
-	// return config.timeformat ? data.raw.format( config.format ) : data.timestamp;
 }
 
 function wireUp( adapterFsm, config, channel, adapter ) {
-	let init,
-		topics;
+	let init, topics;
 	let handler = adapter.onLog;
 
 	if ( _.isFunction( adapter.init ) ) {
