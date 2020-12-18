@@ -47,7 +47,6 @@
     "pretest": "npm run lint",
     "test:only": "NODE_ENV=test mocha --exit -R spec 'spec/**/*.spec.js'",
     "test:ci": "NODE_ENV=test mocha --exit -R spec 'spec/behavior/**/*.spec.js'",
-    "test:watch": "nodemon --exec \"NODE_ENV=test mocha --exit -R spec 'spec/**/*.spec.js' || true\" -e js,json,sql",
     "test": "npm run cover",
     "cover": "nyc -r text-summary -r html -- npm run test:only",
     "cover:ci": "nyc -r text-summary -r html -- npm run test:ci",
