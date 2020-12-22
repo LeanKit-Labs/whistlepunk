@@ -1,3 +1,14 @@
+## 1.x
+
+### 1.0.0
+
+* Update to latest eslint leankit config
+* Respond to pr review items
+* Fix eslint errors in specs
+* Remove unused npm script
+* Update lodash, machina, moment, debug, & mocha
+* Switch to node 12.18, npm scripts, nyc, eslint, and remove when
+
 ## 0.3.x
 
 ## 0.3.3

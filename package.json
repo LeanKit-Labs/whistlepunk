@@ -1,6 +1,6 @@
 {
   "name": "whistlepunk",
-  "version": "0.3.3",
+  "version": "1.0.0",
   "homepage": "https://github.com/LeanKit-Labs/whistlepunk",
   "description": "Logging abstraction that signals any enabled adapters of a new log message.",
   "author": "LeanKit",
