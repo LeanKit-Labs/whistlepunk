@@ -1,8 +1,10 @@
-var util = require( "util" );
-var _ = require( "lodash" );
-var moment = require( "moment" );
+"use strict";
+
+const util = require( "util" );
+const _ = require( "lodash" );
+const moment = require( "moment" );
 module.exports = function( channel, resolve ) {
-	var logLevels = [ "off", "error", "warn", "info", "debug" ];
+	const logLevels = [ "off", "error", "warn", "info", "debug" ];
 
 	function Logger( ns, adapters ) {
 		this.namespace = ns || "";
@@ -10,13 +12,13 @@ module.exports = function( channel, resolve ) {
 	}
 
 	Logger.prototype.logIt = function logIt( type, data ) {
-		var msg = ( typeof data[ 0 ] === "string" ) ? util.format.apply( null, data ) : data;
-		var utc = moment.utc();
-		var payload = {
-			msg: msg,
+		const msg = ( typeof data[ 0 ] === "string" ) ? util.format.apply( null, data ) : data;
+		const utc = moment.utc();
+		const payload = {
+			msg,
 			timestamp: utc.toISOString(),
-			utc: utc,
-			type: type,
+			utc,
+			type,
 			level: logLevels.indexOf( type ),
 			namespace: this.namespace
 		};
@@ -26,7 +28,7 @@ module.exports = function( channel, resolve ) {
 	Logger.prototype.reset = function reset() {
 		_.each( this.adapters, function( adapter ) {
 			_.each( adapter.subscriptions, function( subscription ) {
-				var topic = subscription.topic || "#";
+				const topic = subscription.topic || "#";
 				if ( resolve( topic, this.namespace ) ) {
 					subscription.unsubscribe();
 				}
@@ -35,8 +37,8 @@ module.exports = function( channel, resolve ) {
 	};
 
 	logLevels.slice( 1 ).forEach( function( level ) {
-		Logger.prototype[ level ] = function() {
-			this.logIt( level, Array.prototype.slice.call( arguments, 0 ) );
+		Logger.prototype[ level ] = function( ...args ) {
+			this.logIt( level, args );
 		};
 	} );
 

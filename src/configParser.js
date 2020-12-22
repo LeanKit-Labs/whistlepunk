@@ -1,9 +1,10 @@
-var _ = require( "lodash" );
-var fs = require( "fs" );
-var path = require( "path" );
-var when = require( "when" );
+"use strict";
 
-var builtIn = getAdapters();
+const _ = require( "lodash" );
+const fs = require( "fs" );
+const path = require( "path" );
+
+const builtIn = getAdapters();
 
 function defaultConstraint( config ) {
 	return function levelConstraint( data ) {
@@ -12,8 +13,8 @@ function defaultConstraint( config ) {
 }
 
 function getAdapters() {
-	var adapterPath = path.resolve( __dirname, "./adapters" );
-	var files = fs.readdirSync( adapterPath );
+	const adapterPath = path.resolve( __dirname, "./adapters" );
+	const files = fs.readdirSync( adapterPath );
 	return _.reduce( files, function( acc, file ) {
 		acc[ file.split( "." )[ 0 ] ] = path.join( adapterPath, file );
 		return acc;
@@ -21,23 +22,19 @@ function getAdapters() {
 }
 
 function timeFormatter( config, data ) {
-	var time = config.timestamp;
+	const time = config.timestamp;
 	if ( time ) {
 		if ( time.local ) {
 			data.utc.local();
 		}
 		return data.utc.format( time.format || "YYYY-MM-DDTHH:mm:ss.SSSZ" );
-	} else {
-		return data.timestamp;
 	}
-	return config.timeformat ? data.raw.format( config.format ) : data.timestamp;
+	return data.timestamp;
 }
 
 function wireUp( adapterFsm, config, channel, adapter ) {
-
-	var fsm;
-	var init;
-	var handler = adapter.onLog;
+	let init, topics;
+	let handler = adapter.onLog;
 
 	if ( _.isFunction( adapter.init ) ) {
 		init = adapter.init();
@@ -48,13 +45,12 @@ function wireUp( adapterFsm, config, channel, adapter ) {
 		}
 	}
 
-	var topics;
 	if ( config.topic && _.isArray( config.topic ) ) {
 		topics = config.topic;
 	} else {
 		topics = ( config.topic || "#" ).split( "," );
 	}
-	var subscriptions = _.map( topics, function( topic ) {
+	const subscriptions = _.map( topics, function( topic ) {
 		return channel
 			.subscribe( topic, handler )
 			.constraint( adapter.constraint || defaultConstraint( config ) );
@@ -68,16 +64,16 @@ function wireUp( adapterFsm, config, channel, adapter ) {
 }
 
 module.exports = function( channel, config, fount ) {
-	var adapterFsm = require( "./adapter.fsm" );
+	const adapterFsm = require( "./adapter.fsm" );
 
 	return _.map( config.adapters, function( adapterCfg, name ) {
-		var adapterPath;
-		if ( /[\/]/.test( name ) ) {
+		let adapterPath;
+		if ( /[/]/.test( name ) ) {
 			adapterPath = require.resolve( path.resolve( process.cwd(), name ) );
 		} else {
 			adapterPath = builtIn[ name ] || require.resolve( name );
 		}
-		var adapter = require( adapterPath )( adapterCfg, timeFormatter, fount );
+		const adapter = require( adapterPath )( adapterCfg, timeFormatter, fount );
 
 		wireUp( adapterFsm, adapterCfg, channel, adapter );
 

@@ -24,3 +24,4 @@ server/log
 client/coverage
 _spec-tmp
 /coverage
+.nyc_output

@@ -1,17 +1,19 @@
-var noOpAdapter = { onLog: function() {} };
-var adapter;
+"use strict";
+
+const noOpAdapter = { onLog() {} };
+let adapter;
 
 function createAhAdapter( fount ) {
-	var host;
+	let host;
 
 	return {
-		init: function() {
+		init() {
 			return fount.resolve( "ah" )
 				.then( function( _host ) {
 					host = _host;
 				} );
 		},
-		onLog: function( data ) {
+		onLog( data ) {
 			if ( host && host.notifyClients ) {
 				host.notifyClients( data.type, data );
 			}

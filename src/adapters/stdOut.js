@@ -1,22 +1,24 @@
-var colors = require( "colors" );
-var _ = require( "lodash" );
-var adapter, lastConfig;
+"use strict";
+
+const colors = require( "colors" );
+const _ = require( "lodash" );
+let adapter, lastConfig;
 
 function configure( config, formatter ) {
-	if( adapter && lastConfig && _.eq( lastConfig, config ) ) {
+	if ( adapter && lastConfig && _.eq( lastConfig, config ) ) {
 		return;
 	}
 	lastConfig = config;
-	var envDebug = !!process.env.DEBUG;
+	const envDebug = !!process.env.DEBUG;
 
-	var theme = _.extend( {
+	const theme = _.extend( {
 		info: "green",
 		warn: "yellow",
 		debug: "blue",
 		error: "red"
 	}, config.theme );
 
-	var logType = {
+	const logType = {
 		info: "info",
 		warn: "warn",
 		debug: "log",
@@ -26,17 +28,18 @@ function configure( config, formatter ) {
 	colors.setTheme( theme );
 
 	adapter = {
-		onLog: function( data ) {
-			var msg;
+		onLog( data ) {
+			let msg;
 			if ( data.msg.toString() === "[object Object]" ) {
 				msg = config.formatJSON ? JSON.stringify( data.msg, null, 2 ) : JSON.stringify( data.msg );
 			} else {
 				msg = data.msg;
 			}
-			var timestamp = formatter( config, data );
-			console[logType[data.type]]( colors[ data.type ]( timestamp, "[" + data.namespace + "]" || "", msg ) );
+			const timestamp = formatter( config, data );
+			/* eslint-disable-next-line no-console */
+			console[ logType[ data.type ] ]( colors[ data.type ]( timestamp, `[${ data.namespace }]` || "", msg ) );
 		},
-		constraint: function( data ) {
+		constraint( data ) {
 			return data.level <= config.level && ( !config.bailIfDebug || ( config.bailIfDebug && !envDebug ) );
 		}
 	};
