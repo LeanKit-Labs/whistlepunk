@@ -55,7 +55,7 @@
   "dependencies": {
     "colors": "1.0.3",
     "debug": "2.4.5",
-    "lodash": "4.17.20",
+    "lodash": "4.17.21",
     "machina": "^4.0.2",
     "moment": "^2.29.1",
     "postal": "1.x"
