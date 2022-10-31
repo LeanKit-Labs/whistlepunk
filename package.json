@@ -58,7 +58,7 @@
     "lodash": "^4.17.21",
     "machina": "^4.0.2",
     "moment": "^2.29.4",
-    "postal": "1.x"
+    "postal": "^2.0.6"
   },
   "devDependencies": {
     "chai": "^4.3.6",
