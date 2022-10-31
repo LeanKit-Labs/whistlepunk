@@ -54,7 +54,7 @@
   },
   "dependencies": {
     "colors": "^1.4.0",
-    "debug": "2.4.5",
+    "debug": "^4.3.4",
     "lodash": "^4.17.21",
     "machina": "^4.0.2",
     "moment": "^2.29.4",
