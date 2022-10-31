@@ -53,11 +53,11 @@
     "cover:show": "open \"file://$PWD/coverage/index.html\""
   },
   "dependencies": {
-    "colors": "1.0.3",
+    "colors": "^1.4.0",
     "debug": "2.4.5",
-    "lodash": "4.17.20",
+    "lodash": "^4.17.21",
     "machina": "^4.0.2",
-    "moment": "^2.29.1",
+    "moment": "^2.29.4",
     "postal": "1.x"
   },
   "devDependencies": {
