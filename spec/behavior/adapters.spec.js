@@ -419,15 +419,18 @@ describe( "Built-in Adapters", function() {
 	} );
 
 	describe( "when using the debug adapter", function() {
-		let logFactory, logger, errMsg, infoMsg, wp, debug, DEBUG;
+		let logFactory, logger, errMsg, infoMsg, wp, debugFactory, debug, DEBUG;
 		before( function() {
 			errMsg = "Testing autohost err";
 			infoMsg = "Testing autohost info";
 			DEBUG = process.env.DEBUG;
 			process.env.DEBUG = "debug-test";
-			debug = require( "debug" );
-			debug.log = sinon.stub( debug, "log" );
-			wp = getWhistlepunk();
+			debug = sinon.stub();
+			debugFactory = sinon.stub().returns( debug );
+			debugFactory[ "@runtimeGlobal" ] = true;
+			wp = getWhistlepunk( {
+				debug: debugFactory
+			} );
 			logFactory = wp( postal, {
 				adapters: {
 					debug: {
@@ -442,15 +445,16 @@ describe( "Built-in Adapters", function() {
 
 		after( function() {
 			process.env.DEBUG = DEBUG;
-			debug.log.restore();
 			logger.reset();
 			postal.reset();
+			delete debugFactory[ "@runtimeGlobal" ];
+			global.proxyquire._disableGlobalCache();
 		} );
 
 		it( "should output messages to the debug log", function() {
-			debug.log.callCount.should.equal( 2 );
-			debug.log.getCall( 0 ).args[ 1 ].should.equal( errMsg );
-			debug.log.getCall( 1 ).args[ 1 ].should.equal( infoMsg );
+			debug.callCount.should.equal( 2 );
+			debug.getCall( 0 ).args[ 1 ].should.equal( errMsg );
+			debug.getCall( 1 ).args[ 1 ].should.equal( infoMsg );
 		} );
 	} );
 } );
