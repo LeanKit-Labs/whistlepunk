@@ -1,3 +1,14 @@
+## 2.x
+
+### 2.0.0
+
+* update postal
+* update debug dep. sorry, had to do some silly stuff to make existing tests work.
+* update patch and minor deps
+* Update dev deps
+* Remove unused deps
+* update node
+
 ## 1.x
 
 ### 1.0.0
